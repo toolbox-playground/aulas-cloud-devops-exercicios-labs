@@ -1,13 +1,16 @@
-# Cloud Computing Exercises
+# Aulas Online - Exercícios e Labs
 
-Repositório de laboratórios práticos para aulas de cloud.
+Repositório com trilhas de exercícios práticos para aulões online.
 
-## Estrutura
+## Trilhas
 
-- [GCP Labs](gcp/labs/README.md)
-- [AWS Labs](aws/labs/README.md)
-- [Azure Labs](azure/labs/README.md)
+- [Cloud Computing Exercises](cloud-computing-exercises/README.md)
+- [Artificial Intelligence Exercises](artificial-intelligence-exercises/README.md)
+- [Terraform Exercises](terraform-exercises/README.md)
+- [Docker Exercises](docker-exercises/README.md)
+- [Kubernetes Exercises](kubernetes-exercises/README.md)
+- [DevSecOps Exercises](devsecops-exercises/README.md)
 
 ## Objetivo
 
-Cada pasta contém laboratórios independentes (hands-on), prontos para execução em ambiente de laboratório cloud.
+Organizar laboratórios independentes por área técnica, com foco em execução prática durante aulas ao vivo.
