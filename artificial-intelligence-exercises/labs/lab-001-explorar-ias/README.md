@@ -30,7 +30,7 @@ Evidenciar que vale explorar múltiplas IAs para objetivos diferentes.
 ## Prompt do lab
 
 ```text
-Refaça os slides desta apresentação de DevIAOps, mantendo uma estrutura didática para aula ao vivo. Inclua: histórico e futuro da IA, GenAI/LLMs, agentes de IA para produtividade e MCP. Organize em tópicos claros, com linguagem simples e objetiva.
+Refaça os slides desta apresentação em anexo para uma aula de DevAIOps, mantendo uma estrutura didática para aula ao vivo. Inclua: histórico e futuro da IA, GenAI/LLMs, agentes de IA para produtividade e MCP. Organize em tópicos claros, com linguagem simples e objetiva.
 ```
 
 ## Referências mostradas no material
