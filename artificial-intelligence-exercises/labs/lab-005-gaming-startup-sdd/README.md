@@ -32,26 +32,14 @@ specify init my-project --ai copilot
 4. Defina a constituição de engenharia no chat.
 5. Especifique o produto (jogo), gere plano, refine e implemente.
 
-## Prompts de comparação (exatamente iguais ao Lab 002)
+## Prompt de comparação (igual ao Lab 002 - Prompt Médio)
 
-Use os prompts abaixo sem alterações para comparar os primeiros resultados entre Lab 002, Lab 004 e Lab 005.
+Use somente este prompt para reduzir complexidade e comparar os primeiros resultados entre Lab 002, Lab 004 e Lab 005.
 
-### Prompt 1 - Fácil
-
-```text
-Crie um sistema solar dinâmico em HTML/CSS/JS: planetas orbitando um sol brilhante com texturas únicas e luminosidade atmosférica. Inclua luas, cinturões de asteroides, cometas ocasionais e movimentos sutis de câmera. A cena deve se repetir perfeitamente com órbitas e iluminação suaves.
-```
-
-### Prompt 2 - Médio
+### Prompt único
 
 ```text
 Crie um código HTML5/JS único de um clone de Angry Birds utilizando Matter.js. O jogo deve ter física de estilingue manual (arrastar/soltar responsivo), sistema de destruição estrutural realista (blocos e porcos com HP/Partículas) e renderização vetorial completa via Canvas (Pássaro, Porcos, Cenário), sem imagens externas.
-```
-
-### Prompt 3 - Difícil
-
-```text
-Programar um protótipo de "GTA 6" com mundo aberto, carros e personagens 3D usando apenas HTML, CSS e JavaScript (Three.js) em um arquivo único. Coisas para considerar: Jogabilidade, Gráficos e Atmosfera, Lógica de Código, A Interface. O protótipo precisa ser 100% jogável através do navegador, como se fosse GTA.
 ```
 
 ## Execução com SDD
@@ -62,15 +50,15 @@ Programar um protótipo de "GTA 6" com mundo aberto, carros e personagens 3D usa
 /speckit.constitution crie princípios focados em DevOps, desenvolvimento de jogos em diversos frameworks como python pygame ou html, css e javascript, com engines e bibliotecas que façam com que os jogos tenham alta qualidade, baixa complexidade sempre que possível e alto desempenho.
 ```
 
-2. Para cada prompt acima, execute `/speckit.specify` usando exatamente o mesmo texto do prompt.
+2. Execute `/speckit.specify` usando exatamente o texto do prompt único.
 3. Gere planejamento com `/speckit.plan`.
 4. Ajuste com `/speckit.clarify` quando necessário.
 5. Gere tarefas com `/speckit.tasks`.
 
 ## Gate de qualidade obrigatório (antes do /speckit.implement)
 
-- Revisão da spec por pares (ou dupla).
-- Revisão do plano por pares (ou dupla).
+- Revisão da spec.
+- Revisão do plano.
 - Aprovação explícita dos dois artefatos antes de implementar.
 
 Somente após esse gate, execute:
@@ -79,10 +67,20 @@ Somente após esse gate, execute:
 /speckit.implement
 ```
 
+## Iteração obrigatória após implementar
+
+1. Teste o `index.html` gerado no navegador jogando de verdade.
+2. Quando houver falhas (estilingue, colisão, física, travamento, UX), descreva em linguagem natural o problema para a IA.
+3. Volte ao fluxo SDD para refinamento com `/speckit.plan` ou `/speckit.check` e aplique ajustes.
+4. Reimplemente e reteste o `index.html`.
+5. Repita até obter jogo jogável e estável.
+
 ## Validação guiada
 
 - Constituição criada e revisada.
 - Especificação gerada para o jogo.
 - Plano e tarefas geradas.
 - Gate de qualidade realizado antes da implementação (revisão de spec e plano por pares).
+- O lab utilizou apenas o prompt único de Angry Birds.
+- O `index.html` foi testado e iterado com feedback em linguagem natural.
 - Implementação concluída com artefatos SDD versionáveis.

@@ -43,40 +43,35 @@ ide
 4. Use o comando do Claude para configurar MCPs (`mcp`).
 5. Se já tiver MCPs no VS Code/Cursor, peça para o Claude reaproveitar a configuração.
 6. Consulte o cheatsheet: https://awesomeclaude.ai/code-cheatsheet
-7. Adicione skills relevantes: https://claude-plugins.dev/skills
+7. Adicione skills relevantes (fortemente recomendado): https://claude-plugins.dev/skills
+8. Priorize skills de arquitetura de software, engenharia sênior e desenvolvimento de jogos.
 
-## Prompts de comparação (exatamente iguais ao Lab 002)
+## Prompt de comparação (igual ao Lab 002 - Prompt Médio)
 
-Use os prompts abaixo sem alterações para comparar os primeiros resultados entre Lab 002, Lab 004 e Lab 005.
+Use somente este prompt para reduzir complexidade e comparar os primeiros resultados entre Lab 002, Lab 004 e Lab 005.
 
-### Prompt 1 - Fácil
-
-```text
-Crie um sistema solar dinâmico em HTML/CSS/JS: planetas orbitando um sol brilhante com texturas únicas e luminosidade atmosférica. Inclua luas, cinturões de asteroides, cometas ocasionais e movimentos sutis de câmera. A cena deve se repetir perfeitamente com órbitas e iluminação suaves.
-```
-
-### Prompt 2 - Médio
+### Prompt único
 
 ```text
 Crie um código HTML5/JS único de um clone de Angry Birds utilizando Matter.js. O jogo deve ter física de estilingue manual (arrastar/soltar responsivo), sistema de destruição estrutural realista (blocos e porcos com HP/Partículas) e renderização vetorial completa via Canvas (Pássaro, Porcos, Cenário), sem imagens externas.
 ```
 
-### Prompt 3 - Difícil
-
-```text
-Programar um protótipo de "GTA 6" com mundo aberto, carros e personagens 3D usando apenas HTML, CSS e JavaScript (Three.js) em um arquivo único. Coisas para considerar: Jogabilidade, Gráficos e Atmosfera, Lógica de Código, A Interface. O protótipo precisa ser 100% jogável através do navegador, como se fosse GTA.
-```
-
 ## Execução no Claude Code
 
 1. Rode em plan-mode (Shift+Tab).
-2. Cole cada prompt exatamente como está acima.
-3. Gere saída executável e faça testes no navegador.
-4. Itere melhorias apenas após registrar o resultado inicial para comparação.
+2. Cole o prompt único exatamente como está acima.
+3. Gere o `index.html`.
+4. Teste o `index.html` no navegador jogando de verdade.
+5. Sempre que encontrar falha (física do estilingue, bug, travamento, UX), descreva em linguagem natural no prompt o que deu errado.
+6. Peça para o Claude corrigir e regenerar o código.
+7. Repita o ciclo testar → reportar problema → corrigir até obter experiência jogável estável.
 
 ## Validação guiada
 
 - O projeto foi iniciado com Claude Code em plan-mode.
 - MCPs e skills foram configurados no fluxo.
+- O lab utilizou apenas o prompt único de Angry Birds.
+- O `index.html` foi testado após cada implementação.
+- Houve iterações de correção baseadas em feedback em linguagem natural do usuário.
 - Critério funcional: o jogo inicia sem erro fatal, responde a inputs e mantém loop jogável por pelo menos 2 minutos.
 - Critério de performance: sem travamentos severos, com experiência minimamente fluida durante a execução.
