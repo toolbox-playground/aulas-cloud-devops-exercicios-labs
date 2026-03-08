@@ -1,61 +1,74 @@
-# Lab 001 - Pipeline Única DevSecOps (versão enxuta)
+# Lab 001 - Pipeline Única DevSecOps
 
 ## Objetivo
 
-Praticar correção de falhas de segurança em um fluxo real de PR, usando a pipeline do repositório `caio-sec`.
+Praticar um ciclo completo de DevSecOps em PR real: **detectar -> corrigir -> validar -> repetir**.
+
+## Duração e dificuldade
+
+- Duração estimada: 30 a 45 minutos
+- Dificuldade: iniciante a intermediário
 
 ## Repositório base
 
 - https://github.com/toolbox-playground/caio-sec
 
-## O que você vai praticar
+## Contexto da prática
 
-- Encontrar problemas de segurança na codebase.
-- Corrigir incrementalmente em uma branch própria.
-- Abrir PR e acompanhar os checks de segurança.
-- Iterar até os checks passarem conforme esperado.
+Você vai trabalhar com uma pipeline unificada que roda segurança antes de CI/CD.
+O foco do lab não é “passar de primeira”, e sim aprender a ler os resultados dos scanners e corrigir com commits incrementais.
 
-## Passo a passo do aluno
+## O que será praticado
+
+- Leitura de findings nos checks (Checkov, Gitleaks, TruffleHog, Trivy)
+- Correção de problemas de segurança na codebase
+- Abertura e evolução de PR com feedback contínuo da pipeline
+- Validação de progresso no `Summary` e nos logs dos jobs
+
+## Fluxo recomendado do aluno
 
 1. Faça fork do repositório **ou** use uma branch no repositório principal.
-2. Crie uma branch de trabalho:
+2. Crie sua branch de trabalho:
 
 ```bash
 git checkout -b hotfix/lab-001-seu-nome
 ```
 
-3. Faça alterações de correção nos arquivos que os scanners apontarem.
-4. Commit incremental (um bloco de correções por vez):
+3. Abra um PR cedo (mesmo incompleto), para já visualizar os checks.
+4. Corrija um bloco por vez (ex.: segredos, depois dependências, depois código).
+5. Faça commits pequenos e descritivos:
 
 ```bash
 git add .
 git commit -m "fix(lab-001): corrigir <tema>"
-```
-
-5. Faça push da branch:
-
-```bash
 git push -u origin hotfix/lab-001-seu-nome
 ```
 
-6. Abra PR para `main`.
-7. Acompanhe os checks no GitHub Actions (security, summary, ci, cd).
-8. Se algum check falhar:
-   - leia o log do job,
-   - identifique arquivo/linha,
+6. A cada falha de check:
+   - abra o job no Actions,
+   - leia arquivo/linha reportados,
    - aplique correção,
-   - faça novo commit e push.
-9. Repita até a pipeline refletir as correções esperadas.
+   - commit/push novamente.
+7. Repita até atingir o comportamento esperado da pipeline.
 
-## Dica de execução
+## Como demonstrar em aula (roteiro curto)
 
-- Trabalhe em ciclos curtos: **corrige -> push -> vê check -> corrige de novo**.
-- Foque primeiro nos jobs de segurança (Checkov, Gitleaks, TruffleHog, Trivy).
+1. Rodar baseline e mostrar os checks.
+2. Escolher 1 finding e corrigir ao vivo.
+3. Pushar e mostrar impacto imediato no PR.
+4. Repetir com mais 1 ou 2 findings.
+5. Encerrar com comparação antes/depois do `Summary`.
 
-## Exemplo de PR resolvendo o lab (colinha)
+## Dicas práticas
 
-Se travar para encontrar todos os pontos, use este PR como referência:
+- Trabalhe em ciclos curtos: **corrige -> push -> verifica check**.
+- Comece pelos jobs de segurança; depois valide CI/CD.
+- Não tente corrigir tudo num único commit.
+
+## PR referência (colinha)
+
+Se você travar para encontrar todos os ajustes, use como guia:
 
 - https://github.com/toolbox-playground/caio-sec/pull/1
 
-Use apenas como guia. O ideal é você tentar localizar e corrigir os problemas por conta própria antes de consultar a referência.
+Use essa referência para comparação de abordagem, mas tente resolver primeiro por conta própria.
