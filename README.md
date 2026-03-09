@@ -4,12 +4,12 @@ Lista curada e organizada, por tecnologia, de labs e exercícios práticos criad
 
 ## Trilhas
 
-- [Cloud Computing Exercises](cloud-computing-exercises/README.md)
-- [Artificial Intelligence Exercises](artificial-intelligence-exercises/README.md)
-- [Terraform Exercises](terraform-exercises/README.md)
-- [Docker Exercises](docker-exercises/README.md)
-- [Kubernetes Exercises](kubernetes-exercises/README.md)
-- [DevSecOps Exercises](devsecops-exercises/README.md)
+- [Cloud Computing Labs](cloud-computing-labs/README.md)
+- [Artificial Intelligence Labs](artificial-intelligence-labs/README.md)
+- [IaC Labs](iac-labs/README.md)
+- [Docker Labs](docker-labs/README.md)
+- [Kubernetes Labs](kubernetes-labs/README.md)
+- [DevSecOps Labs](devsecops-labs/README.md)
 
 ## Objetivo
 

@@ -1,4 +1,4 @@
-# Docker Exercises
+# Docker Labs
 
 Trilha de exercícios práticos com Docker.
 

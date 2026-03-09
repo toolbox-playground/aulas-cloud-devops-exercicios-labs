@@ -1,4 +1,4 @@
-# Cloud Computing Exercises
+# Cloud Computing Labs
 
 Repositório de laboratórios práticos de cloud computing.
 

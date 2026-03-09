@@ -1,4 +1,4 @@
-# Kubernetes Exercises
+# Kubernetes Labs
 
 Trilha de exercícios práticos com Kubernetes.
 

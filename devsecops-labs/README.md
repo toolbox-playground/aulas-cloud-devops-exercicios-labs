@@ -1,4 +1,4 @@
-# DevSecOps Exercises
+# DevSecOps Labs
 
 Trilha de exercícios práticos de segurança para cloud e DevOps.
 

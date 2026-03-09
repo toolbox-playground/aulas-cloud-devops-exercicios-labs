@@ -1,4 +1,4 @@
-# Terraform Exercises
+# Terraform Labs
 
 Trilha de exercícios práticos com Terraform.
 

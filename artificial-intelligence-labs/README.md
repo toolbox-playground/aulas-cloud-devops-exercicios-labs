@@ -1,4 +1,4 @@
-# Artificial Intelligence Exercises
+# Artificial Intelligence Labs
 
 Trilha de exercícios práticos para IA.
 
