@@ -4,4 +4,4 @@ Trilha de exercícios práticos com Docker.
 
 ## Labs
 
-- Em construção
+- [Lab 001 - Hello World com Docker Languages](labs/lab-001-hello-world-docker-languages/README.md)
