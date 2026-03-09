@@ -1,6 +1,6 @@
 # Aulas Online - Exercícios e Labs
 
-Repositório com trilhas de exercícios práticos para aulões online.
+Lista curada e organizada, por tecnologia, de labs e exercícios práticos criados para a Toolbox Playground.
 
 ## Trilhas
 
@@ -13,4 +13,7 @@ Repositório com trilhas de exercícios práticos para aulões online.
 
 ## Objetivo
 
-Organizar laboratórios independentes por área técnica, com foco em execução prática durante aulas ao vivo.
+Este repositório funciona como **ponto único de entrada** para encontrar laboratórios, projetos e repositórios de exercícios da Toolbox Playground.
+O foco é facilitar a descoberta de qualquer exercício por tecnologia, de forma rápida e organizada.
+
+Sempre que um novo repositório de labs/exercícios for criado na Toolbox Playground, ele deve ser adicionado nesta curadoria.
