@@ -29,7 +29,7 @@ Para monitorar o consumo do Free Tier:
 ## Pré-requisitos
 
 - Conta AWS ativa (Free Tier ou créditos disponíveis) 
-- Acesso ao Console da AWS
+- Acesso ao Console da AWS - https://us-east-2.console.aws.amazon.com/
 - Região com EC2 `t2.micro` disponível (ex.: `us-east-1`, `sa-east-1`)
 
 ## Jogo usado no lab
