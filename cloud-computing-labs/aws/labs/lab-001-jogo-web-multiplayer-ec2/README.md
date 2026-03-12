@@ -15,7 +15,8 @@ Publicar o jogo `TOSIOS` na AWS com duas opções:
 
 ## Pré-requisitos
 
-- Conta AWS ativa
+- Se ainda não tiver conta, criar em: https://aws.amazon.com/free/
+- Conta AWS ativa (Free Tier ou créditos)
 - Acesso ao Console AWS - https://us-east-2.console.aws.amazon.com/
 - Região com `t2.micro` disponível (`us-east-1` ou `sa-east-1`)
 
@@ -51,17 +52,19 @@ Escolha uma subopção:
 <details>
 <summary><strong>A1 - Manual (Console AWS)</strong></summary>
 
-1. Crie SG `web-game-sg` com inbound:
+1. No Console AWS, use a barra de busca e abra `EC2`.
+2. Vá em `Network & Security` → `Security Groups` → `Create security group`.
+3. Crie `web-game-sg` com inbound:
    - `SSH` porta `22` de `0.0.0.0/0`
    - `Custom TCP` porta `3001` de `0.0.0.0/0`
-2. Crie EC2:
+4. Vá em `Instances` → `Launch instances` e crie a EC2:
    - Nome: `web-game-server`
    - AMI: Ubuntu 22.04
    - Tipo: `t2.micro`
    - SG: `web-game-sg`
    - Key pair: sem key pair (usar EC2 Instance Connect)
-3. Conecte via `EC2 Instance Connect`.
-4. Rode na instância:
+5. Aguarde status `Running` e clique na instância → `Connect` → `EC2 Instance Connect`.
+6. Rode na instância:
 
 ```bash
 sudo apt update
@@ -73,7 +76,7 @@ docker run -d --name jogo-web -p 3001:3001 halftheopposite/tosios
 docker ps
 ```
 
-5. Acesse:
+7. Em `EC2` → `Instances`, copie o `Public IPv4 address` e acesse:
 
 ```text
 http://SEU_PUBLIC_IP:3001/
@@ -135,14 +138,24 @@ Validação rápida (Opção A):
 
 ## Opção B - ECS/Fargate
 
-1. Crie cluster `web-game-cluster` (Fargate).
-2. Crie task definition `web-game-task`:
-   - imagem `halftheopposite/tosios:latest`
-   - porta `3001`
-   - `0.25 vCPU` / `0.5 GB`
-3. Crie SG `web-game-ecs-sg` com inbound `tcp:3001`.
-4. Crie service `web-game-service` com `Desired tasks = 1` e `Public IP = enabled`.
-5. Acesse:
+1. No Console AWS, pesquise por `Elastic Container Service` e abra `Amazon ECS`.
+2. Vá em `Clusters` → `Create cluster`.
+   - Nome: `web-game-cluster`
+   - Infra: `AWS Fargate (serverless)`
+3. Vá em `Task definitions` → `Create new task definition`.
+   - Nome: `web-game-task`
+   - CPU/Memória: `0.25 vCPU` / `0.5 GB`
+   - Container image: `halftheopposite/tosios:latest`
+   - Port mapping: `3001`
+4. No serviço `EC2`, crie SG `web-game-ecs-sg` com inbound `tcp:3001`.
+5. Volte ao cluster `web-game-cluster` → `Create` (Service):
+   - Launch type: `Fargate`
+   - Task definition: `web-game-task`
+   - Service name: `web-game-service`
+   - Desired tasks: `1`
+   - Networking: `Public IP = Enabled`, SG `web-game-ecs-sg`
+6. Aguarde a task ficar `Running`, abra a task e copie o `Public IP`.
+7. Acesse:
 
 ```text
 http://SEU_PUBLIC_IP:3001/
