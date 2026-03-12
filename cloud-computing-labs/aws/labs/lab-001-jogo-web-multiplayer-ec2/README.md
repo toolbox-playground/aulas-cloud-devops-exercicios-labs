@@ -71,6 +71,11 @@ flowchart TB
 
 ## Opção A - Deploy no EC2 (Free Tier)
 
+Escolha uma das subopções abaixo:
+
+<details>
+<summary><strong>Subopção A1 - Fazer na mão (Console AWS + EC2 Instance Connect)</strong></summary>
+
 ### Passo 1 - Criar o Security Group
 
 No Console da AWS:
@@ -103,8 +108,6 @@ No Console da AWS:
    - Storage: 8 GB gp3 (padrão)
 3. Clique em `Launch instance`
 
-> Aguarde o status mudar para `Running` antes de prosseguir (~30 segundos).
-
 ### Passo 3 - Conectar na instância (EC2 Instance Connect)
 
 1. Na lista de instâncias, selecione `web-game-server`
@@ -112,9 +115,7 @@ No Console da AWS:
 3. Selecione a aba `EC2 Instance Connect`
 4. Clique em `Connect`
 
-Um terminal no navegador será aberto diretamente na instância.
-
-### Passo 4 - Instalar Docker na instância
+### Passo 4 - Instalar Docker e subir o jogo
 
 No terminal da instância, rode:
 
@@ -124,17 +125,12 @@ sudo apt install -y docker.io
 sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
 newgrp docker
-```
-
-### Passo 5 - Executar o jogo em container
-
-```bash
 docker pull halftheopposite/tosios
 docker run -d --name jogo-web -p 3001:3001 halftheopposite/tosios
 docker ps
 ```
 
-### Passo 6 - Acessar no navegador
+### Passo 5 - Acessar no navegador
 
 1. No console da AWS, copie o **Public IPv4 address** da instância
 2. Abra no navegador:
@@ -143,25 +139,74 @@ docker ps
 http://SEU_PUBLIC_IP:3001/
 ```
 
-Exemplo:
+</details>
+
+<details>
+<summary><strong>Subopção A2 - Fazer por comandos no AWS CloudShell ("ClaudeShell")</strong></summary>
+
+### Passo 1 - Abrir o CloudShell
+
+No Console da AWS, abra o terminal do `AWS CloudShell`.
+
+### Passo 2 - Criar infraestrutura com comandos
+
+> Ajuste a variável `REGION` se necessário.
+
+```bash
+REGION="us-east-1"
+AMI_ID=$(aws ssm get-parameter --name "/aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp3/ami-id" --query "Parameter.Value" --output text --region "$REGION")
+VPC_ID=$(aws ec2 describe-vpcs --filters "Name=isDefault,Values=true" --query "Vpcs[0].VpcId" --output text --region "$REGION")
+
+SG_ID=$(aws ec2 create-security-group \
+  --group-name web-game-sg-cli \
+  --description "Security group para TOSIOS" \
+  --vpc-id "$VPC_ID" \
+  --query GroupId --output text --region "$REGION")
+
+aws ec2 authorize-security-group-ingress --group-id "$SG_ID" --protocol tcp --port 22 --cidr 0.0.0.0/0 --region "$REGION"
+aws ec2 authorize-security-group-ingress --group-id "$SG_ID" --protocol tcp --port 3001 --cidr 0.0.0.0/0 --region "$REGION"
+
+cat > user-data.sh <<'EOF'
+#!/bin/bash
+apt-get update -y
+apt-get install -y docker.io
+systemctl enable docker
+systemctl start docker
+docker run -d --name jogo-web -p 3001:3001 halftheopposite/tosios
+EOF
+
+INSTANCE_ID=$(aws ec2 run-instances \
+  --image-id "$AMI_ID" \
+  --instance-type t2.micro \
+  --security-group-ids "$SG_ID" \
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=web-game-server-cli}]' \
+  --user-data file://user-data.sh \
+  --query 'Instances[0].InstanceId' \
+  --output text --region "$REGION")
+
+aws ec2 wait instance-running --instance-ids "$INSTANCE_ID" --region "$REGION"
+PUBLIC_IP=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" --query 'Reservations[0].Instances[0].PublicIpAddress' --output text --region "$REGION")
+
+echo "InstanceId: $INSTANCE_ID"
+echo "SecurityGroup: $SG_ID"
+echo "Acesse: http://$PUBLIC_IP:3001/"
+```
+
+### Passo 3 - Validar acesso
+
+Abra no navegador:
 
 ```text
-http://54.175.23.91:3001/
+http://SEU_PUBLIC_IP:3001/
+```
+
+</details>
 
 ### Validação rápida (Opção A)
 
-Comandos:
-
-```bash
-docker ps
-curl -I http://localhost:3001
-```
-
-Esperado:
-
-- Container `jogo-web` com status `Up`
-- Porta `0.0.0.0:3001->3001/tcp`
-- HTTP `200 OK`
+- Instância EC2 em estado `running`
+- Security Group com porta `3001` liberada
+- Acesso externo em `http://SEU_PUBLIC_IP:3001/`
 
 ---
 
@@ -227,7 +272,6 @@ http://SEU_PUBLIC_IP:3001/
 - Task em estado `Running`
 - Security group com `tcp:3001`
 - Acesso HTTP externo funcionando na porta `3001`
-```
 
 ## Limpeza
 
