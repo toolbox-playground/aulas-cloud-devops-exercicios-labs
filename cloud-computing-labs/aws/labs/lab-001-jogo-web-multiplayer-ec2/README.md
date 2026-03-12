@@ -38,7 +38,9 @@ Para monitorar o consumo do Free Tier:
 - Tipo: shooter 2D multiplayer no navegador
 - Porta da aplicação: `3001`
 
-## Arquitetura - Opção A (EC2)
+## Opção A - Deploy no EC2 (Free Tier)
+
+### Arquitetura - Opção A (EC2)
 
 - 1 instância EC2 Ubuntu 22.04 (`t2.micro`)
 - 1 Security Group liberando `tcp:3001` (inbound) e `tcp:22` (EC2 Instance Connect)
@@ -47,7 +49,6 @@ Para monitorar o consumo do Free Tier:
 ```mermaid
 flowchart TB
    U["Usuários<br/>Browser Web<br/>(Chrome / Edge / Safari)"]
-
    I["Internet Pública"]
 
    subgraph AWS["Amazon Web Services"]
@@ -56,9 +57,7 @@ flowchart TB
       end
 
       EC2["EC2 Instance<br/>Ubuntu 22.04<br/>t2.micro<br/>Public IP"]
-
       DOCKER["Docker Engine"]
-
       APP["Container Jogo Multiplayer<br/>halftheopposite/tosios<br/>Porta 3001"]
    end
 
@@ -68,8 +67,6 @@ flowchart TB
    EC2 --> DOCKER
    DOCKER --> APP
 ```
-
-## Opção A - Deploy no EC2 (Free Tier)
 
 Escolha uma das subopções abaixo:
 
