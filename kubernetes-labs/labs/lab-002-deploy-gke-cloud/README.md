@@ -65,62 +65,38 @@ flowchart TB
 
 1. Abra o console GCP: https://console.cloud.google.com/
 2. Pesquise por `Kubernetes Engine` e abra.
-3. Se solicitado, habilite a API `Kubernetes Engine API`.
+3. Se solicitado, habilite a API `Kubernetes Engine API` e aguarde.
 4. Vá em `Clusters` → `Create`.
 5. Escolha `Standard` e configure:
    - Nome: `lab-mario-cluster`
    - Zona: `us-east1-b`
    - Node pool → Machine type: `e2-medium`
    - Number of nodes: `2`
-6. Clique em `Create` e aguarde (~3 min).
+6. Clique em `Create` e aguarde (~3 min) até o cluster aparecer como `Running`.
 
-### 2. Conectar ao Cluster
+### 2. Fazer o Deploy do Jogo
 
-1. Clique no cluster criado e depois em `Connect`.
-2. Clique em `Run in Cloud Shell` — isso abre o Cloud Shell já com o comando `gcloud container clusters get-credentials` pronto.
-3. Execute o comando que aparecer. Exemplo:
+1. No menu lateral, vá em `Workloads` → `Deploy`.
+2. Em **Container image**, digite: `pengbai/docker-supermario:latest`
+3. Em **Application name**, coloque: `super-mario`
+4. Em **Replicas**, coloque: `2`
+5. Clique em `Deploy` e aguarde os pods ficarem `OK`.
 
-```bash
-gcloud container clusters get-credentials lab-mario-cluster --zone us-east1-b --project SEU_PROJECT_ID
-```
+### 3. Expor o Serviço
 
-4. Confirme a conexão:
+1. Na tela de detalhes do deployment `super-mario`, clique em `Expose`.
+2. Configure:
+   - Port: `8080`
+   - Target port: `8080`
+   - Protocol: `TCP`
+   - Service type: `Load balancer`
+3. Clique em `Expose` e aguarde.
 
-```bash
-kubectl get nodes
-```
+### 4. Acessar o Jogo
 
-### 3. Criar o Deployment
-
-```bash
-kubectl create deployment super-mario \
-  --image=pengbai/docker-supermario:latest \
-  --replicas=2
-```
-
-Verifique:
-
-```bash
-kubectl get deployments
-kubectl get pods
-```
-
-### 4. Expor o Serviço
-
-```bash
-kubectl expose deployment super-mario \
-  --type=LoadBalancer \
-  --port=8080 \
-  --target-port=8080
-```
-
-Aguarde o IP externo (pode levar 1-2 min):
-
-```bash
-kubectl get service super-mario --watch
-```
-
-Quando `EXTERNAL-IP` não for mais `<pending>`, acesse:
+1. Vá em `Services & Ingress` no menu lateral.
+2. Localize o service `super-mario` e copie o `Endpoints` (IP externo).
+3. Acesse no browser:
 
 ```text
 http://EXTERNAL_IP:8080/
