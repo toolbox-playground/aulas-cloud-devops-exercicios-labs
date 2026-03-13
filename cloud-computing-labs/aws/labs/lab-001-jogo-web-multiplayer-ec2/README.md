@@ -138,6 +138,29 @@ Validação rápida (Opção A):
 
 ## Opção B - ECS/Fargate
 
+<details>
+<summary><strong>Arquitetura (Opção B)</strong></summary>
+
+- 1 ECS Cluster (Fargate serverless)
+- 1 Task Definition com `halftheopposite/tosios`
+- 1 ECS Service com `Public IP = Enabled`
+- 1 Security Group com `tcp:3001`
+
+```mermaid
+flowchart TB
+   U["Usuários / Browser"] -->|HTTP 3001| I["Internet"]
+   I --> SG["Security Group\n3001"]
+   SG --> ECS["ECS Fargate"]
+   ECS --> TASK["Task: TOSIOS :3001"]
+```
+
+</details>
+
+Escolha uma subopção:
+
+<details>
+<summary><strong>B1 - Manual (Console AWS)</strong></summary>
+
 1. No Console AWS, pesquise por `Elastic Container Service` e abra `Amazon ECS`.
 2. Vá em `Clusters` → `Create cluster`.
    - Nome: `web-game-cluster`
@@ -161,6 +184,51 @@ Validação rápida (Opção A):
 http://SEU_PUBLIC_IP:3001/
 ```
 
+</details>
+
+<details>
+<summary><strong>B2 - AWS CloudShell (comandos)</strong></summary>
+
+No `AWS CloudShell`, execute:
+
+```bash
+REGION="us-east-1"
+VPC_ID=$(aws ec2 describe-vpcs --filters "Name=isDefault,Values=true" --query "Vpcs[0].VpcId" --output text --region "$REGION")
+SUBNET_IDS=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPC_ID" --query "Subnets[*].SubnetId" --output text --region "$REGION" | tr '\t' ',')
+
+SG_ID=$(aws ec2 create-security-group \
+  --group-name web-game-ecs-sg-cli \
+  --description "Security group para TOSIOS ECS" \
+  --vpc-id "$VPC_ID" \
+  --query GroupId --output text --region "$REGION")
+
+aws ec2 authorize-security-group-ingress --group-id "$SG_ID" --protocol tcp --port 3001 --cidr 0.0.0.0/0 --region "$REGION"
+
+aws ecs create-cluster --cluster-name web-game-cluster-cli --region "$REGION"
+
+aws ecs register-task-definition \
+  --family web-game-task-cli \
+  --network-mode awsvpc \
+  --requires-compatibilities FARGATE \
+  --cpu 256 \
+  --memory 512 \
+  --container-definitions '[{"name":"tosios","image":"halftheopposite/tosios:latest","portMappings":[{"containerPort":3001,"protocol":"tcp"}],"essential":true}]' \
+  --region "$REGION"
+
+aws ecs create-service \
+  --cluster web-game-cluster-cli \
+  --service-name web-game-service-cli \
+  --task-definition web-game-task-cli \
+  --desired-count 1 \
+  --launch-type FARGATE \
+  --network-configuration "awsvpcConfiguration={subnets=[$SUBNET_IDS],securityGroups=[$SG_ID],assignPublicIp=ENABLED}" \
+  --region "$REGION"
+
+echo "Aguarde ~60s e consulte o IP público da task no Console ECS → Clusters → web-game-cluster-cli → Tasks."
+```
+
+</details>
+
 Validação rápida (Opção B):
 
 - Task `running`
@@ -169,9 +237,14 @@ Validação rápida (Opção B):
 
 ## Limpeza
 
-1. Termine a EC2 `web-game-server`.
-2. ECS: ajuste `Desired tasks = 0` ou delete service/cluster.
-3. Remova SGs (`web-game-sg` e `web-game-ecs-sg`) se não estiverem em uso.
+**Opção A (EC2):**
+1. Termine a EC2 `web-game-server` (ou `web-game-server-cli`).
+2. Remova o SG `web-game-sg` (ou `web-game-sg-cli`).
+
+**Opção B (ECS):**
+1. Delete o service: `web-game-service` (ou `web-game-service-cli`) com `Desired tasks = 0`.
+2. Delete o cluster `web-game-cluster` (ou `web-game-cluster-cli`).
+3. Remova o SG `web-game-ecs-sg` (ou `web-game-ecs-sg-cli`).
 
 ## Referências
 
