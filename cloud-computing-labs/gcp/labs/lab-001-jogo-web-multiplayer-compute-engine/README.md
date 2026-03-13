@@ -9,7 +9,7 @@ Provisionar uma VM no Google Compute Engine, instalar Docker, executar um jogo m
 - Dificuldade: Iniciante
 - Tempo estimado: 30 minutos
 
-## Contexto de execução (Google Skills)
+## Contexto de execução (Google Skills ou Free Tier)
 
 Você pode iniciar um ambiente de laboratório no Google Skills e usar os créditos mensais para executar este exercício.
 
@@ -20,14 +20,22 @@ Exemplos de labs para iniciar ambiente:
 
 > Observação: os links acima servem para abrir um ambiente de prática no GCP. Depois de entrar no console, siga os passos deste roteiro e não os passos que o GCP Skills pede.
 
+Se preferir usar conta própria, você também pode usar o Free Tier do Google Cloud:
+
+- https://docs.cloud.google.com/free/docs/free-cloud-features?hl=pt-br
+
 ## Pré-requisitos
 
-- Conta com acesso ao Google Cloud (preferencialmente via Google Skills)
+- Se ainda não tiver conta, criar/ativar Free Tier em: https://docs.cloud.google.com/free/docs/free-cloud-features?hl=pt-br
+- Conta com acesso ao Google Cloud (Google Skills ou conta própria)
 - Projeto GCP ativo
 - Permissão para criar VM e regra de firewall
-- Cloud Shell ou terminal SSH da VM
+- Cloud Shell habilitado ou terminal SSH da VM
 
 ## Arquitetura do lab
+
+<details>
+<summary><strong>Ver arquitetura</strong></summary>
 
 - 1 VM Ubuntu 22.04 no Compute Engine
 - 1 regra de firewall liberando `tcp:8080`
@@ -58,37 +66,49 @@ flowchart TB
    DOCKER --> APP
 ```
 
-## Passo 1 - Criar a VM
+</details>
+
+## Opções de execução
+
+Você pode concluir o lab de duas formas:
+
+- **Opção A (manual):** criando recursos no Console GCP
+- **Opção B (Cloud Shell):** criando recursos via comandos `gcloud`
+
+<details>
+<summary><strong>Opção A - Manual (Console GCP)</strong></summary>
+
+### Passo 1 - Criar a VM
 
 No Console do GCP:
 
 1. Acesse `Compute Engine` → `VM instances` → `Create instance`
 2. Configure:
-   - Nome: `web-game-server`
-   - Região/Zona: qualquer (ex.: `us-central1-a`)
-   - Tipo: `e2-small` (2 vCPU, 2 GB RAM)
-   - OS: `Ubuntu 22.04 LTS`
-   - Disco: `10 GB` (Standard)
+    - Nome: `web-game-server`
+    - Região/Zona: qualquer (ex.: `us-central1-a`)
+    - Tipo: `e2-small` (2 vCPU, 2 GB RAM)
+    - OS: `Ubuntu 22.04 LTS`
+    - Disco: `10 GB` (Standard)
 3. Crie a instância
 
 > Não é obrigatório marcar `Allow HTTP` ou `Allow HTTPS` para este lab.
 
-## Passo 2 - Criar regra de firewall (porta do jogo)
+### Passo 2 - Criar regra de firewall (porta do jogo)
 
 No Console do GCP:
 
 1. Acesse `VPC network` → `Firewall` → `Create firewall rule`
 2. Configure:
-   - Name: `allow-web-game-8080`
-   - Direction of traffic: `Ingress`
-   - Targets: `All instances in the network`
-   - Source IPv4 ranges: `0.0.0.0/0`
-   - Protocols and ports: `Specified protocols and ports` → `tcp:8080`
+    - Name: `allow-web-game-8080`
+    - Direction of traffic: `Ingress`
+    - Targets: `All instances in the network`
+    - Source IPv4 ranges: `0.0.0.0/0`
+    - Protocols and ports: `Specified protocols and ports` → `tcp:8080`
 3. Salve a regra
 
 > Nota de segurança: neste lab didático, a origem `0.0.0.0/0` é usada para simplificar o acesso. Em cenários reais, restrinja os IPs de origem ao mínimo necessário.
 
-## Passo 3 - Instalar Docker na VM
+### Passo 3 - Instalar Docker e subir o jogo
 
 Conecte por SSH na VM e rode:
 
@@ -98,19 +118,12 @@ sudo apt install -y docker.io
 sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
 newgrp docker
-```
-
-## Passo 4 - Executar o jogo em container
-
-Na VM, rode:
-
-```bash
 docker pull mirkesx/bomberman
 docker run -d --name jogo-web -p 8080:8080 mirkesx/bomberman
 docker ps
 ```
 
-## Passo 5 - Acessar no navegador
+### Passo 4 - Acessar no navegador
 
 1. Copie o `External IP` da VM no Compute Engine
 2. Abra no navegador:
@@ -119,11 +132,42 @@ docker ps
 http://SEU_EXTERNAL_IP:8080/
 ```
 
-Exemplo:
+</details>
 
-```text
-http://34.28.78.68:8080/
+<details>
+<summary><strong>Opção B - Cloud Shell (comandos gcloud)</strong></summary>
+
+No `Cloud Shell`, execute:
+
+```bash
+PROJECT_ID=$(gcloud config get-value project)
+ZONE="us-central1-a"
+INSTANCE_NAME="web-game-server-cli"
+FIREWALL_RULE="allow-web-game-8080-cli"
+
+gcloud compute instances create "$INSTANCE_NAME" \
+   --zone="$ZONE" \
+   --machine-type="e2-small" \
+   --image-family="ubuntu-2204-lts" \
+   --image-project="ubuntu-os-cloud" \
+   --boot-disk-size="10GB" \
+   --tags="web-game"
+
+gcloud compute firewall-rules create "$FIREWALL_RULE" \
+   --network="default" \
+   --allow="tcp:8080" \
+   --source-ranges="0.0.0.0/0" \
+   --target-tags="web-game"
+
+gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command='sudo apt update && sudo apt install -y docker.io && sudo systemctl enable --now docker && sudo docker pull mirkesx/bomberman && sudo docker run -d --name jogo-web -p 8080:8080 mirkesx/bomberman && sudo docker ps'
+
+EXTERNAL_IP=$(gcloud compute instances describe "$INSTANCE_NAME" --zone="$ZONE" --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+echo "Acesse: http://$EXTERNAL_IP:8080/"
 ```
+
+> Se a regra de firewall já existir, ajuste o nome em `FIREWALL_RULE`.
+
+</details>
 
 ## Validação guiada
 
@@ -156,7 +200,7 @@ Resultado esperado:
 
 Verificação no Console do GCP:
 
-- Regra `allow-web-game-8080` criada
+- Regra `allow-web-game-8080` (manual) ou `allow-web-game-8080-cli` (Cloud Shell) criada
 - Direção `Ingress`
 - Porta `tcp:8080` liberada
 
@@ -167,6 +211,20 @@ No navegador, acesse `http://SEU_EXTERNAL_IP:8080/`.
 Resultado esperado:
 
 - Jogo carregando no navegador a partir do IP externo da VM
+
+## Limpeza
+
+Se usou a opção manual:
+
+1. Exclua a VM `web-game-server`
+2. Exclua a regra de firewall `allow-web-game-8080`
+
+Se usou a opção Cloud Shell:
+
+```bash
+gcloud compute instances delete web-game-server-cli --zone=us-central1-a --quiet
+gcloud compute firewall-rules delete allow-web-game-8080-cli --quiet
+```
 
 ---
 
