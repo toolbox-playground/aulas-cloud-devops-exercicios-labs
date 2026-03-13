@@ -61,6 +61,8 @@ flowchart TB
 <details>
 <summary><strong>Opção A - Manual (Console GCP)</strong></summary>
 
+> ℹ️ **UI quando disponível:** dependendo do projeto/permissões/versão do Console, alguns botões podem não aparecer. Se isso acontecer, use a **Opção B (Cloud Shell)**.
+
 ### 1. Criar o Cluster GKE
 
 1. Abra o console GCP: https://console.cloud.google.com/
