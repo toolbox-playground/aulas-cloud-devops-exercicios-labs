@@ -15,8 +15,8 @@ Você pode iniciar um ambiente de laboratório no Google Skills e usar os crédi
 
 Exemplos de labs para iniciar ambiente:
 
-- https://www.skills.google/focuses/3563
-- https://www.skills.google/focuses/11952
+- [https://www.skills.google/focuses/3563](https://www.skills.google/catalog_lab/1427)
+- [https://www.skills.google/focuses/11952](https://www.skills.google/catalog_lab/2617)
 
 > Observação: os links acima servem para abrir um ambiente de prática no GCP. Depois de entrar no console, siga os passos deste roteiro e não os passos que o GCP Skills pede.
 
