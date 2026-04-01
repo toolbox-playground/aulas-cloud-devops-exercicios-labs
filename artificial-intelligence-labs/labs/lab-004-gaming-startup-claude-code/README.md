@@ -75,3 +75,11 @@ Crie um código HTML5/JS único de um clone de Angry Birds utilizando Matter.js.
 - Houve iterações de correção baseadas em feedback em linguagem natural do usuário.
 - Critério funcional: o jogo inicia sem erro fatal, responde a inputs e mantém loop jogável por pelo menos 2 minutos.
 - Critério de performance: sem travamentos severos, com experiência minimamente fluida durante a execução.
+
+## Referências
+
+- Claude: https://claude.ai/
+- Claude Code: https://claude.com/product/claude-code
+- Claude Code Cheatsheet: https://awesomeclaude.ai/code-cheatsheet
+- Claude Skills/Plugins: https://claude-plugins.dev/skills
+- Matter.js: https://brm.io/matter-js/

@@ -84,3 +84,9 @@ Somente após esse gate, execute:
 - O lab utilizou apenas o prompt único de Angry Birds.
 - O `index.html` foi testado e iterado com feedback em linguagem natural.
 - Implementação concluída com artefatos SDD versionáveis.
+
+## Referências
+
+- Spec-Driven Development (Spec Kit): https://developer.microsoft.com/blog/spec-driven-development-spec-kit
+- VS Code + GitHub Copilot: https://code.visualstudio.com/docs/copilot/overview
+- Matter.js: https://brm.io/matter-js/

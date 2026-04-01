@@ -9,11 +9,23 @@ Explorar agentes de IA com MCP para análise de código, execução de tarefas e
 - Dificuldade: Intermediário
 - Tempo estimado: 45 a 70 minutos
 
+## Propósito
+
+Demonstrar o poder de agentes de IA integrados em IDEs com suporte a MCP, permitindo automatizar tarefas de desenvolvimento, criar integrações com ferramentas externas (Jira, Miro, GitHub) e executar fluxos complexos a partir de linguagem natural.
+
 ## Ferramentas sugeridas
 
 - VS Code + Copilot
 - Cursor IDE
 - MCPs conectados (ex.: Jira, Miro, GitHub)
+
+## Pré-requisitos
+
+- VS Code: https://code.visualstudio.com/ ou Cursor: https://cursor.com/
+- GitHub Copilot ativo (para VS Code) ou assinatura Cursor
+- Conta no Jira (para MCP Jira): https://www.atlassian.com/software/jira
+- Conta no Miro (para MCP Miro): https://miro.com/
+- Conta no GitHub (para MCP GitHub): https://github.com/
 
 ## Referências do material
 

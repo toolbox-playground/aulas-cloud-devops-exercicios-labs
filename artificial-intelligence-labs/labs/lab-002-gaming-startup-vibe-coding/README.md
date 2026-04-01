@@ -13,6 +13,13 @@ Medir a capacidade de cada modelo ao receber prompts simples para criar jogos co
 
 Mostrar que, sem contexto e governança, os resultados tendem a bugs, baixa performance e inconsistência.
 
+## Ferramentas sugeridas
+
+- ChatGPT: https://chatgpt.com/
+- Claude: https://claude.ai/
+- Gemini: https://gemini.google.com/
+- Copilot: https://copilot.microsoft.com/
+
 ## Passo a passo
 
 1. Escolha 2 ou 3 IAs para comparação.
@@ -46,3 +53,11 @@ Programar um protótipo de "GTA 6" com mundo aberto, carros e personagens 3D usa
 - Os 3 prompts foram testados em pelo menos 2 IAs.
 - Os resultados foram executados no navegador.
 - Foi produzido um comparativo com erros e limitações observadas.
+
+## Referências
+
+- Matter.js: https://brm.io/matter-js/
+- Three.js: https://threejs.org/
+- ChatGPT: https://chatgpt.com/
+- Claude: https://claude.ai/
+- Gemini: https://gemini.google.com/
