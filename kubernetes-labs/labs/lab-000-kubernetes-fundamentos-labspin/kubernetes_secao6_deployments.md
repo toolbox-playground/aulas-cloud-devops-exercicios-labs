@@ -64,6 +64,23 @@ spec:
           image: nginx
           ports:
             - containerPort: 80
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              cat <<'EOF' > /usr/share/nginx/html/index.html
+              <!doctype html>
+              <html>
+                <head>
+                  <meta charset="utf-8" />
+                  <title>Hello Kubernetes Deployment</title>
+                </head>
+                <body>
+                  <h1>Hello Kubernetes! Eu sou um deployment.</h1>
+                  <p>Se você deletar uma das pods, minha página web ainda continua de pé.</p>
+                </body>
+              </html>
+              EOF
+              nginx -g 'daemon off;'
 ```
 
 ---
@@ -83,6 +100,23 @@ kubectl get pods
 
 👉 Você verá múltiplos Pods rodando automaticamente
 
+Para validar no navegador (sem Service ainda):
+
+```bash
+kubectl port-forward --address 0.0.0.0 deployment/nginx-deployment <SUA_PORTA>:80
+```
+
+Abra no navegador:
+
+> Adquira o IP da sua máquina: acesse a aba "Informações do lab" para pegar IP e abra no seu navegador:
+```html
+http://<IP_DA_MAQUINA>:<SUA_PORTA>
+
+exemplo: http://20.127.19.164:<SUA_PORTA>/
+```
+
+👉 Você deverá ver a página customizada do Deployment.
+
 ---
 
 ## 📈 Escalando a aplicação
@@ -96,6 +130,50 @@ Verifique:
 ```bash
 kubectl get pods
 ```
+
+---
+
+## 🧪 Teste de resiliência 1 (deletando 1 Pod)
+
+Neste teste, você vai derrubar apenas uma Pod e confirmar que o Deployment mantém a aplicação no ar.
+
+```bash
+kubectl get pods -l app=nginx
+kubectl delete pod $(kubectl get pods -l app=nginx -o jsonpath='{.items[0].metadata.name}')
+kubectl get pods -l app=nginx
+kubectl get deployments
+kubectl port-forward --address 0.0.0.0 deployment/nginx-deployment <SUA_PORTA>:80
+```
+
+Abra no navegador:
+
+```html
+http://<IP_DA_MAQUINA>:<SUA_PORTA>
+```
+
+👉 A página continua acessível porque as outras réplicas seguem ativas e o Kubernetes repõe a Pod removida.
+
+---
+
+## 🧪 Teste de resiliência 2 (deletando todas as Pods)
+
+Agora derrube todas as Pods do Deployment e observe a recuperação automática.
+
+```bash
+kubectl get pods -l app=nginx
+kubectl delete pods -l app=nginx
+kubectl get pods -l app=nginx -w
+kubectl get deployments
+kubectl port-forward --address 0.0.0.0 deployment/nginx-deployment <SUA_PORTA>:80
+```
+
+Abra no navegador:
+
+```html
+http://<IP_DA_MAQUINA>:<SUA_PORTA>
+```
+
+👉 A página pode cair por alguns segundos, mas o Kubernetes recria as Pods sozinho e o acesso volta.
 
 ---
 

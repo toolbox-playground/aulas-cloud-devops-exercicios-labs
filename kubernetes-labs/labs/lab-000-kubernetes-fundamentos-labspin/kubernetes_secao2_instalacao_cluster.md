@@ -153,10 +153,10 @@ kubectl cp index.html nginx:/usr/share/nginx/html/index.html
 
 ---
 
-## Passo 8 — Exponha cesse seu serviço através da internet e acesse pelo navegador
+## Passo 8 — Exponha e acesse seu Pod através da internet
 
 ```bash
-kubectl port-forward --address 0.0.0.0 pod/nginx 800<SUA_PORTA_DO_LAB>:80
+kubectl port-forward --address 0.0.0.0 pod/nginx <SUA_PORTA>:80
 ```
 
 
@@ -164,13 +164,13 @@ Adquira o IP da sua máquina e acesse na aba "Informações do lab"e acesse no s
 ```html
 http://<IP_DA_MAQUINA>:<SUA_PORTA>
 
-exemplo: http://20.127.19.164:8000/
+exemplo: http://20.127.19.164:<SUA_PORTA>/
 ```
 
-> **Nota**: se der erro `Unable to listen onport 800x: bind: address already in use`, você antes derrubar o container atual que está usando esta porta primeiro com os seguintes comandos:
+> **Nota**: se der erro `bind: address already in use`, escolha outra porta disponível do seu lab ou finalize o processo que está usando a porta.
 ```bash
-docker ps.  # para verificar qual containerID usa a porta 800x
-docker rm -f <NOME_OU_ID_DO_CONTAINER>.  # para deletar o container usando essa porta
+docker ps  # para verificar qual container usa a porta
+docker rm -f <NOME_OU_ID_DO_CONTAINER>  # para remover o container que ocupa a porta
 ```
 
 ---

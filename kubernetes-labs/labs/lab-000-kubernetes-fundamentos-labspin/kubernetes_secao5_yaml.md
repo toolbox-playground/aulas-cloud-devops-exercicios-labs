@@ -134,7 +134,7 @@ kubectl get pods
 Nesta etapa do curso, vamos manter o básico: acessar o Pod com `port-forward`.
 
 ```bash
-kubectl port-forward --address 0.0.0.0 pod/nginx-yaml 8000:80
+kubectl port-forward --address 0.0.0.0 pod/nginx-yaml <SUA_PORTA>:80
 ```
 
 Abra no navegador:
@@ -143,7 +143,7 @@ Abra no navegador:
 ```html
 http://<IP_DA_MAQUINA>:<SUA_PORTA>
 
-exemplo: http://20.127.19.164:8000/
+exemplo: http://20.127.19.164:<SUA_PORTA>/
 ```
 
 👉 Você deverá ver a página **Hello Kubernetes** customizada.
