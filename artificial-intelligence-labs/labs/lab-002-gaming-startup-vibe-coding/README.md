@@ -18,6 +18,7 @@ Mostrar que, sem contexto e governança, os resultados tendem a bugs, baixa perf
 - ChatGPT: https://chatgpt.com/
 - Claude: https://claude.ai/
 - Gemini: https://gemini.google.com/
+- Manus: https://manus.im/ 
 - Copilot: https://copilot.microsoft.com/
 
 ## Passo a passo
