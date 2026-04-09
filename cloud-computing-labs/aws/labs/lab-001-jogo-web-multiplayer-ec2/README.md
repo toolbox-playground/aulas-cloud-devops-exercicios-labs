@@ -1,27 +1,23 @@
 # Lab 001 - Jogo Web Multiplayer na AWS (EC2 ou ECS)
 
 ## Objetivo
-
 Publicar o jogo `TOSIOS` na AWS com duas opções:
 
 - **Opção A (recomendada):** EC2 + Docker (Free Tier)
 - **Opção B:** ECS/Fargate (container service)
 
 ## Informações do lab
-
 - Dificuldade: Iniciante
 - Tempo estimado: 35-45 min
 - Porta da aplicação: `3001`
 
 ## Pré-requisitos
-
 - Se ainda não tiver conta, criar em: https://aws.amazon.com/free/
 - Conta AWS ativa (Free Tier ou créditos)
 - Acesso ao Console AWS - https://us-east-2.console.aws.amazon.com/
 - Região com `t2.micro` disponível (`us-east-1` ou `sa-east-1`)
 
 ## Jogo usado
-
 - Imagem Docker: `halftheopposite/tosios`
 - Tipo: shooter 2D multiplayer em navegador
 
@@ -29,29 +25,23 @@ Publicar o jogo `TOSIOS` na AWS com duas opções:
 
 ## Opção A - EC2 (Free Tier)
 
-<details>
-<summary><strong>Arquitetura (Opção A)</strong></summary>
-
+Arquitetura (Opção A)
 - 1 EC2 Ubuntu 22.04 (`t2.micro`)
 - 1 Security Group com `tcp:22` e `tcp:3001`
 - 1 container Docker com `halftheopposite/tosios`
 
 ```mermaid
 flowchart TB
-   U["Usuários / Browser"] -->|HTTP 3001| I["Internet"]
-   I --> SG["Security Group\n22 e 3001"]
-   SG --> EC2["EC2 t2.micro"]
-   EC2 --> D["Docker"]
-   D --> APP["TOSIOS :3001"]
+  U["Usuários / Browser"] -->|HTTP 3001| I["Internet"]
+  I --> SG["Security Group\n22 e 3001"]
+  SG --> EC2["EC2 t2.micro"]
+  EC2 --> D["Docker"]
+  D --> APP["TOSIOS :3001"]
 ```
-
-</details>
 
 Escolha uma subopção:
 
-<details>
-<summary><strong>A1 - Manual (Console AWS)</strong></summary>
-
+### A1 - Manual (Console AWS)
 1. No Console AWS, use a barra de busca e abra `EC2`.
 2. Vá em `Network & Security` → `Security Groups` → `Create security group`.
 3. Crie `web-game-sg` com inbound:
@@ -82,26 +72,45 @@ docker ps
 http://SEU_PUBLIC_IP:3001/
 ```
 
-</details>
-
-<details>
-<summary><strong>A2 - AWS CloudShell (comandos)</strong></summary>
-
+### A2 - AWS CloudShell (comandos)
 No `AWS CloudShell`, execute:
 
 ```bash
 REGION="us-east-1"
-AMI_ID=$(aws ssm get-parameter --name "/aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp3/ami-id" --query "Parameter.Value" --output text --region "$REGION")
-VPC_ID=$(aws ec2 describe-vpcs --filters "Name=isDefault,Values=true" --query "Vpcs[0].VpcId" --output text --region "$REGION")
+
+AMI_ID=$(aws ssm get-parameter \
+  --name "/aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp3/ami-id" \
+  --query "Parameter.Value" \
+  --output text \
+  --region "$REGION")
+
+VPC_ID=$(aws ec2 describe-vpcs \
+  --filters "Name=isDefault,Values=true" \
+  --query "Vpcs[0].VpcId" \
+  --output text \
+  --region "$REGION")
 
 SG_ID=$(aws ec2 create-security-group \
   --group-name web-game-sg-cli \
   --description "Security group para TOSIOS" \
   --vpc-id "$VPC_ID" \
-  --query GroupId --output text --region "$REGION")
+  --query GroupId \
+  --output text \
+  --region "$REGION")
 
-aws ec2 authorize-security-group-ingress --group-id "$SG_ID" --protocol tcp --port 22 --cidr 0.0.0.0/0 --region "$REGION"
-aws ec2 authorize-security-group-ingress --group-id "$SG_ID" --protocol tcp --port 3001 --cidr 0.0.0.0/0 --region "$REGION"
+aws ec2 authorize-security-group-ingress \
+  --group-id "$SG_ID" \
+  --protocol tcp \
+  --port 22 \
+  --cidr 0.0.0.0/0 \
+  --region "$REGION"
+
+aws ec2 authorize-security-group-ingress \
+  --group-id "$SG_ID" \
+  --protocol tcp \
+  --port 3001 \
+  --cidr 0.0.0.0/0 \
+  --region "$REGION"
 
 cat > user-data.sh <<'EOF'
 #!/bin/bash
@@ -119,17 +128,23 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=web-game-server-cli}]' \
   --user-data file://user-data.sh \
   --query 'Instances[0].InstanceId' \
-  --output text --region "$REGION")
+  --output text \
+  --region "$REGION")
 
-aws ec2 wait instance-running --instance-ids "$INSTANCE_ID" --region "$REGION"
-PUBLIC_IP=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" --query 'Reservations[0].Instances[0].PublicIpAddress' --output text --region "$REGION")
+aws ec2 wait instance-running \
+  --instance-ids "$INSTANCE_ID" \
+  --region "$REGION"
+
+PUBLIC_IP=$(aws ec2 describe-instances \
+  --instance-ids "$INSTANCE_ID" \
+  --query 'Reservations[0].Instances[0].PublicIpAddress' \
+  --output text \
+  --region "$REGION")
+
 echo "Acesse: http://$PUBLIC_IP:3001/"
 ```
 
-</details>
-
 Validação rápida (Opção A):
-
 - EC2 em `running`
 - SG com portas `22` e `3001`
 - URL abrindo: `http://SEU_PUBLIC_IP:3001/`
@@ -138,9 +153,7 @@ Validação rápida (Opção A):
 
 ## Opção B - ECS/Fargate
 
-<details>
-<summary><strong>Arquitetura (Opção B)</strong></summary>
-
+Arquitetura (Opção B)
 - 1 ECS Cluster (Fargate serverless)
 - 1 Task Definition com `halftheopposite/tosios`
 - 1 ECS Service com `Public IP = Enabled`
@@ -148,18 +161,16 @@ Validação rápida (Opção A):
 
 ```mermaid
 flowchart TB
-   U["Usuários / Browser"] -->|HTTP 3001| I["Internet"]
-   I --> SG["Security Group\n3001"]
-   SG --> ECS["ECS Fargate"]
-   ECS --> TASK["Task: TOSIOS :3001"]
+  U["Usuários / Browser"] -->|HTTP 3001| I["Internet"]
+  I --> SG["Security Group\n3001"]
+  SG --> ECS["ECS Fargate"]
+  ECS --> TASK["Task: TOSIOS :3001"]
 ```
-
-</details>
 
 Escolha uma subopção:
 
-<details>
-<summary><strong>B1 - Manual (Console AWS)</strong></summary>
+### B1 - Manual (Console AWS)
+> **Importante antes de começar:** se você já executou esta parte do laboratório antes, apague primeiro os recursos antigos da opção ECS para evitar confusão entre Security Groups, tasks e IPs públicos antigos. Verifique se não existem `web-game-cluster`, `web-game-service`, `web-game-task` e `web-game-ecs-sg` anteriores em uso. Se existirem, delete-os antes de prosseguir.
 
 1. No Console AWS, pesquise por `Elastic Container Service` e abra `Amazon ECS`.
 2. Vá em `Clusters` → `Create cluster`.
@@ -170,69 +181,167 @@ Escolha uma subopção:
    - CPU/Memória: `0.25 vCPU` / `0.5 GB`
    - Container image: `halftheopposite/tosios:latest`
    - Port mapping: `3001`
-4. No serviço `EC2`, crie SG `web-game-ecs-sg` com inbound `tcp:3001`.
+4. No serviço `EC2`, crie SG `web-game-ecs-sg` com inbound `tcp:3001` de `0.0.0.0/0`.
+   - **Atenção:** confirme que a regra inbound foi realmente criada antes de continuar.
+   - **Atenção:** use apenas o SG que será selecionado no service. Se já existir outro SG antigo parecido, prefira deletar o antigo antes para evitar selecionar o SG errado.
 5. Volte ao cluster `web-game-cluster` → `Create` (Service):
    - Launch type: `Fargate`
    - Task definition: `web-game-task`
    - Service name: `web-game-service`
    - Desired tasks: `1`
    - Networking: `Public IP = Enabled`, SG `web-game-ecs-sg`
+   - **Atenção:** confira novamente que `Public IP = Enabled` está habilitado e que o SG selecionado é exatamente o `web-game-ecs-sg` criado no passo anterior.
 6. Aguarde a task ficar `Running`, abra a task e copie o `Public IP`.
+   - Se não funcionar de primeira, confirme na task atual qual SG está anexado e teste sempre com o IP público da task atual.
 7. Acesse:
 
 ```text
 http://SEU_PUBLIC_IP:3001/
 ```
 
-</details>
+### B2 - AWS CloudShell (comandos)
+> **Importante antes de começar:** se você já executou esta parte do laboratório antes, apague primeiro os recursos antigos da opção ECS para evitar confusão entre Security Groups, tasks e IPs públicos antigos.
 
-<details>
-<summary><strong>B2 - AWS CloudShell (comandos)</strong></summary>
-
-No `AWS CloudShell`, execute:
+No `AWS CloudShell`, execute primeiro a limpeza abaixo. Se algum recurso não existir, o comando pode retornar erro e você pode seguir para o próximo.
 
 ```bash
 REGION="us-east-1"
-VPC_ID=$(aws ec2 describe-vpcs --filters "Name=isDefault,Values=true" --query "Vpcs[0].VpcId" --output text --region "$REGION")
-SUBNET_IDS=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$VPC_ID" --query "Subnets[*].SubnetId" --output text --region "$REGION" | tr '\t' ',')
+
+aws ecs update-service \
+  --cluster web-game-cluster \
+  --service web-game-service \
+  --desired-count 0 \
+  --region "$REGION"
+
+aws ecs delete-service \
+  --cluster web-game-cluster \
+  --service web-game-service \
+  --force \
+  --region "$REGION"
+
+aws ecs delete-cluster \
+  --cluster web-game-cluster \
+  --region "$REGION"
+
+OLD_SG_ID=$(aws ec2 describe-security-groups \
+  --filters "Name=group-name,Values=web-game-ecs-sg" \
+  --query "SecurityGroups[0].GroupId" \
+  --output text \
+  --region "$REGION" 2>/dev/null)
+
+if [ "$OLD_SG_ID" != "None" ] && [ -n "$OLD_SG_ID" ]; then
+  aws ec2 delete-security-group \
+    --group-id "$OLD_SG_ID" \
+    --region "$REGION"
+fi
+```
+
+Agora execute a criação dos recursos:
+
+```bash
+REGION="us-east-1"
+CLUSTER_NAME="web-game-cluster"
+SERVICE_NAME="web-game-service"
+TASK_FAMILY="web-game-task"
+
+VPC_ID=$(aws ec2 describe-vpcs \
+  --query 'Vpcs[?IsDefault==`true`].VpcId' \
+  --output text \
+  --region "$REGION")
+
+SUBNET_IDS=$(aws ec2 describe-subnets \
+  --filters "Name=vpc-id,Values=$VPC_ID" \
+  --query 'Subnets[*].SubnetId' \
+  --output text \
+  --region "$REGION" | tr '\t' ' ')
 
 SG_ID=$(aws ec2 create-security-group \
-  --group-name web-game-ecs-sg-cli \
+  --group-name web-game-ecs-sg \
   --description "Security group para TOSIOS ECS" \
   --vpc-id "$VPC_ID" \
-  --query GroupId --output text --region "$REGION")
+  --query 'GroupId' \
+  --output text \
+  --region "$REGION")
 
-aws ec2 authorize-security-group-ingress --group-id "$SG_ID" --protocol tcp --port 3001 --cidr 0.0.0.0/0 --region "$REGION"
+aws ec2 authorize-security-group-ingress \
+  --group-id "$SG_ID" \
+  --protocol tcp \
+  --port 3001 \
+  --cidr 0.0.0.0/0 \
+  --region "$REGION"
 
-aws ecs create-cluster --cluster-name web-game-cluster-cli --region "$REGION"
+aws ecs create-cluster \
+  --cluster-name "$CLUSTER_NAME" \
+  --region "$REGION"
+
+cat > task-def.json <<EOF
+{
+  "family": "$TASK_FAMILY",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "containerDefinitions": [
+    {
+      "name": "web-game",
+      "image": "halftheopposite/tosios:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3001,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  ]
+}
+EOF
 
 aws ecs register-task-definition \
-  --family web-game-task-cli \
-  --network-mode awsvpc \
-  --requires-compatibilities FARGATE \
-  --cpu 256 \
-  --memory 512 \
-  --container-definitions '[{"name":"tosios","image":"halftheopposite/tosios:latest","portMappings":[{"containerPort":3001,"protocol":"tcp"}],"essential":true}]' \
+  --cli-input-json file://task-def.json \
   --region "$REGION"
 
 aws ecs create-service \
-  --cluster web-game-cluster-cli \
-  --service-name web-game-service-cli \
-  --task-definition web-game-task-cli \
+  --cluster "$CLUSTER_NAME" \
+  --service-name "$SERVICE_NAME" \
+  --task-definition "$TASK_FAMILY" \
   --desired-count 1 \
   --launch-type FARGATE \
-  --network-configuration "awsvpcConfiguration={subnets=[$SUBNET_IDS],securityGroups=[$SG_ID],assignPublicIp=ENABLED}" \
+  --network-configuration "awsvpcConfiguration={subnets=[$(echo $SUBNET_IDS | sed 's/ /,/g')],securityGroups=[$SG_ID],assignPublicIp=ENABLED}" \
   --region "$REGION"
 
-echo "Aguarde ~60s e consulte o IP público da task no Console ECS → Clusters → web-game-cluster-cli → Tasks."
+aws ecs wait services-stable \
+  --cluster "$CLUSTER_NAME" \
+  --services "$SERVICE_NAME" \
+  --region "$REGION"
+
+TASK_ARN=$(aws ecs list-tasks \
+  --cluster "$CLUSTER_NAME" \
+  --service-name "$SERVICE_NAME" \
+  --query 'taskArns[0]' \
+  --output text \
+  --region "$REGION")
+
+ENI_ID=$(aws ecs describe-tasks \
+  --cluster "$CLUSTER_NAME" \
+  --tasks "$TASK_ARN" \
+  --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value' \
+  --output text \
+  --region "$REGION")
+
+PUBLIC_IP=$(aws ec2 describe-network-interfaces \
+  --network-interface-ids "$ENI_ID" \
+  --query 'NetworkInterfaces[0].Association.PublicIp' \
+  --output text \
+  --region "$REGION")
+
+echo "Acesse: http://$PUBLIC_IP:3001/"
 ```
 
-</details>
-
 Validação rápida (Opção B):
-
 - Task `running`
 - SG com `3001`
+- `Public IP = Enabled`
 - Acesso externo funcionando
 
 ## Limpeza
@@ -247,6 +356,5 @@ Validação rápida (Opção B):
 3. Remova o SG `web-game-ecs-sg` (ou `web-game-ecs-sg-cli`).
 
 ## Referências
-
 - [AWS Free Tier](https://aws.amazon.com/free/)
 - [TOSIOS no Docker Hub](https://hub.docker.com/r/halftheopposite/tosios)
