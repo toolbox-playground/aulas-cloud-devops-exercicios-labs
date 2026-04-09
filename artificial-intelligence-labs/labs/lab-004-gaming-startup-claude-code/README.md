@@ -53,7 +53,7 @@ Use estes prompts para guiar o agente antes de iniciar a fase de implementação
 #### Pré-prompt 1 — Plugins e MCP
 
 ```text
-Neste link https://claude.com/plugins#plugins há alguns plugins interessantes, como frontend design, code review, feature dev and playwrigth para automatizar a verificação da interface do usuário... talvez o Ralph Loop também seja interessante... Eu também gostaria de ter três plugins: Feature Dev, Superpowers, Developer Toolkit e Playground para visualização HTML ao vivo.
+Neste link https://claude.com/plugins#plugins há alguns plugins interessantes que quero baixar, como: Frontend Design, Context7, Feature Dev, Superpowers, Plugin Developer Toolkit, Playground, Code review, code simplifier, github, skill creator, claude.md management, claude code setup, pr review toolkit, .
 
 Vejo muitos plugins... já os tenho instalados? Se não, liste todos e instale-os.
 ```
