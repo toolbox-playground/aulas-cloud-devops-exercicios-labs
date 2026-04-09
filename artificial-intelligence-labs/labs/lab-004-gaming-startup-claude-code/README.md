@@ -43,7 +43,7 @@ ide
 4. Use o comando do Claude para configurar MCPs (`mcp`).
 5. Se já tiver MCPs no VS Code/Cursor, peça para o Claude reaproveitar a configuração.
 6. Consulte o cheatsheet: https://awesomeclaude.ai/code-cheatsheet
-7. Adicione plugins e skills relevantes (fortemente recomendado): https://claude-plugins.dev/skills
+7. Adicione plugins e skills relevantes (fortemente recomendado): https://claude-plugins.dev/skills e https://claude.com/plugins#plugins
 8. Priorize plugins e skills de arquitetura de software, engenharia sênior e desenvolvimento de jogos.
 
 ### Pré-prompts (antes do prompt único)
