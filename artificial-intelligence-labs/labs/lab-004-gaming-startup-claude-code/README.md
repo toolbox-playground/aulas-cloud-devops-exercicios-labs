@@ -37,9 +37,9 @@ claude
 3. Faça login e conecte a IDE ou continue no terminal:
 
 
-4. Use o comando do Claude para configurar MCPs (`mcp`).
+4. Use o comando do Claude para configurar MCPs (`mcp`), ou use o [claude.ai](https://claude.ai/customize/connectors) para configurá-los. Uma terceira opção é procurar o MCP que você queira, como por exemplo [github](https://github.com/github/github-mcp-server) e pedir ao claude que o instale. 
 5. Se já tiver MCPs no VS Code/Cursor, peça para o Claude reaproveitar a configuração.
-6. Consulte o cheatsheet: https://awesomeclaude.ai/code-cheatsheet
+6. Para aprender mais comandos, consulte o cheatsheet: https://awesomeclaude.ai/code-cheatsheet
 7. Adicione plugins e skills relevantes (fortemente recomendado): https://claude-plugins.dev/skills e https://claude.com/plugins#plugins
 8. Priorize plugins e skills de arquitetura de software, engenharia sênior e desenvolvimento de jogos.
 
