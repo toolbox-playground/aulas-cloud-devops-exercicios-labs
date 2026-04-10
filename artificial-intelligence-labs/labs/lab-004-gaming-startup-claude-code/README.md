@@ -61,7 +61,7 @@ Vejo muitos plugins... já os tenho instalados? Se não, liste todos e instale-o
 #### Pré-prompt 2 — Skills locais do projeto
 
 ```text
-a partir do conhecimento adquirido nos plugins, crie skills locais no projeto atual para desenvolvimento de games html, css, javascript  e matter.js que rodem em browsers com física, jogabilidade e dinamica perfeita.
+/superpowers:using-superpowers a partir do conhecimento adquirido nos plugins, crie skills locais no projeto atual para desenvolvimento de games html, css, javascript  e matter.js que rodem em browsers com física, jogabilidade e dinamica perfeita.
 ```
 
 ## Prompt de comparação (igual ao Lab 002 - Prompt Médio)
