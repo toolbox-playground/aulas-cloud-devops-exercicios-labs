@@ -34,11 +34,8 @@ mkdir my-new-claude-angrybirds-project && cd my-new-claude-angrybirds-project
 claude
 ```
 
-3. Faça login pela opção de API e conecte a IDE:
+3. Faça login e conecte a IDE ou continue no terminal:
 
-```text
-ide
-```
 
 4. Use o comando do Claude para configurar MCPs (`mcp`).
 5. Se já tiver MCPs no VS Code/Cursor, peça para o Claude reaproveitar a configuração.
