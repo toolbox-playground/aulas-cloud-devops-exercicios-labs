@@ -25,7 +25,7 @@ Mostrar como SDD reduz caos de vibe coding e aumenta previsibilidade, qualidade 
 2. Inicialize projeto:
 
 ```bash
-specify init my-project --ai copilot
+specify init my-project-sdd --integration claude
 ```
 
 3. Entre no projeto no VS Code.
