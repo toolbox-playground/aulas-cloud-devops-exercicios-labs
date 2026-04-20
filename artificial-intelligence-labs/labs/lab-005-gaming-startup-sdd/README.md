@@ -34,11 +34,11 @@ cd my-project-sdd
 5. Especifique o produto (jogo), gere plano, refine e implemente.
 
 
-### Pré-prompts 
+## Pré-prompts 
 
 Use estes prompts para guiar o agente antes de iniciar a fase de implementação.
 
-#### Pré-prompt 1 — Plugins e MCP
+### Pré-prompt 1 — Plugins e MCP
 
 ```text
 Neste link https://claude.com/plugins#plugins há alguns plugins interessantes que quero baixar, como: Frontend Design, Context7, Feature Dev, Superpowers, Plugin Developer Toolkit, Playground, Code review, code simplifier, github, skill creator, claude.md management, claude code setup, pr review toolkit, .
@@ -46,23 +46,15 @@ Neste link https://claude.com/plugins#plugins há alguns plugins interessantes q
 Vejo muitos plugins... já os tenho instalados? Se não, liste todos e instale-os.
 ```
 
-#### Pré-prompt 2 — Skills locais do projeto
+### Pré-prompt 2 — Skills locais do projeto
 
 ```text
 /superpowers:using-superpowers a partir do conhecimento adquirido nos plugins, como frontend, canva e suporpoweres, crie skills locais no projeto atual para desenvolvimento de games html, css, javascript  e matter.js que rodem em browsers com física, jogabilidade e dinamica perfeita.
 ```
 
-## Prompt de comparação (igual ao Lab 002 - Prompt Médio)
-
-Use somente este prompt para reduzir complexidade e comparar os primeiros resultados entre Lab 002, Lab 004 e Lab 005.
-
-### Prompt único (NÃO EXECUTAR - é apenas um exemplo)
-
-```text
-Crie um código HTML5/JS único de um clone de Angry Birds utilizando Matter.js. O jogo deve ter física de estilingue manual (arrastar/soltar responsivo), sistema de destruição estrutural realista (blocos e porcos com HP/Partículas) e renderização vetorial completa via Canvas (Pássaro, Porcos, Cenário), sem imagens externas.
-```
-
 ## Execução com SDD
+
+Agora ao invés de um prompt único, como nos laborátorios passados, vamos executar mais prompts a fim de criar o esqueleto do projeto que guiará o LLM na correta execução e implementação do código.
 
 1. Defina a constituição do projeto:
 
@@ -71,9 +63,13 @@ Crie um código HTML5/JS único de um clone de Angry Birds utilizando Matter.js.
 ```
 
 2. Execute `/speckit.specify` usando exatamente o texto do prompt único.
-3. Gere planejamento com `/speckit.plan`.
-4. Ajuste com `/speckit.clarify` quando necessário.
-5. Gere tarefas com `/speckit.tasks`.
+    ```text
+    crie um código index.html unico HTML5/JS único de um clone de Angry Birds utilizando Matter.js. Mas primeiro vamos criar a governança do seu projeto através da criação do arquivo  CLAUDE.md e de quaisquer skills locais que os agents julguem importantes ou pertinente ao projeto. Crie o repositorio local caso ainda não existe chamado my-new-claude-angrybirds-project, entre no repositorio e crie o claude.md e skills qeu ache necessario. Neste primeiro momento vamos apenas montar a governaça e esqueleto do projeto mas sem codar ainda. para contexto inicial, ojogo deve ter física de estilingue manual (arrastar/soltar responsivo), sistema de destruição estrutural realista (blocos e porcos com HP/Partículas) e renderização vetorial completa via Canvas (Pássaro, Porcos, Cenário), sem imagens externas.. Ao criar o claude e possiveis skills, defina que deve-se criar o código HTML5/JS único de um clone de Angry Birds utilizando Matter.js. O jogo deve ter física de estilingue manual (arrastar/soltar responsivo e seguindo lógica física de ação reação ou seja, puxar o estilingue deve haver a reação do passaro voar na direcao oposta), sistema de destruição estrutural realista (blocos e porcos com HP/Partículas) e renderização vetorial completa via Canvas (Pássaro, Porcos, Cenário), sem imagens externas. Use principios focados em DevOps, desenvolvimento de jogos em diversos frameworks comohtml, css e javascript,  com engines e bibliotecas que façam com que os jogos tenham alta qualidade, baixa complexidade sempre que possivel e alto desempenho. Mais importante o jogo deve ser fisicamente funcional, significando que a física de puxar o estilingue e o passarinho sofrer a ação da elasticidade (ação/reação) e a direção do estilingue devem fisicar fazer sentido e funcionar. Para andar mais rápido, vejo o que dá para paralelizar e delegue subagents rodando em paralelo pra dar mais agilidade a criacao.
+
+    ```
+4. Gere planejamento com `/speckit.plan`.
+5. Ajuste com `/speckit.clarify` quando necessário.
+6. Gere tarefas com `/speckit.tasks`.
 
 ## Gate de qualidade obrigatório (antes do /speckit.implement)
 
