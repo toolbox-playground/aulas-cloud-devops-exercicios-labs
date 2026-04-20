@@ -26,6 +26,7 @@ Mostrar como SDD reduz caos de vibe coding e aumenta previsibilidade, qualidade 
 
 ```bash
 specify init my-project-sdd --integration claude
+cd my-project-sdd
 ```
 
 3. Entre no projeto no VS Code.
@@ -36,7 +37,7 @@ specify init my-project-sdd --integration claude
 
 Use somente este prompt para reduzir complexidade e comparar os primeiros resultados entre Lab 002, Lab 004 e Lab 005.
 
-### Prompt único
+### Prompt único (NÃO EXECUTAR - é apenas um exemplo)
 
 ```text
 Crie um código HTML5/JS único de um clone de Angry Birds utilizando Matter.js. O jogo deve ter física de estilingue manual (arrastar/soltar responsivo), sistema de destruição estrutural realista (blocos e porcos com HP/Partículas) e renderização vetorial completa via Canvas (Pássaro, Porcos, Cenário), sem imagens externas.
@@ -47,7 +48,7 @@ Crie um código HTML5/JS único de um clone de Angry Birds utilizando Matter.js.
 1. Defina a constituição do projeto:
 
 ```text
-/speckit.constitution crie princípios focados em DevOps, desenvolvimento de jogos em diversos frameworks como python pygame ou html, css e javascript, com engines e bibliotecas que façam com que os jogos tenham alta qualidade, baixa complexidade sempre que possível e alto desempenho.
+/speckit.constitution crie princípios focados em DevOps, desenvolvimento de jogos em diversos frameworks como python pygame ou html, css e javascript, com engines e bibliotecas que façam com que os jogos tenham alta qualidade como matter.js, baixa complexidade sempre que possível e alto desempenho.
 ```
 
 2. Execute `/speckit.specify` usando exatamente o texto do prompt único.
