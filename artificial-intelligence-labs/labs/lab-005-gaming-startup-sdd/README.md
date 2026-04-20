@@ -15,7 +15,7 @@ Mostrar como SDD reduz caos de vibe coding e aumenta previsibilidade, qualidade 
 
 ## Pré-requisitos
 
-- VS Code + Copilot
+- VS Code + Claude Code ou Copilot ou Cursor
 - Ambiente com Spec Kit/SDD
 - Referência: https://developer.microsoft.com/blog/spec-driven-development-spec-kit
 
@@ -32,6 +32,25 @@ cd my-project-sdd
 3. Entre no projeto no VS Code.
 4. Defina a constituição de engenharia no chat.
 5. Especifique o produto (jogo), gere plano, refine e implemente.
+
+
+### Pré-prompts 
+
+Use estes prompts para guiar o agente antes de iniciar a fase de implementação.
+
+#### Pré-prompt 1 — Plugins e MCP
+
+```text
+Neste link https://claude.com/plugins#plugins há alguns plugins interessantes que quero baixar, como: Frontend Design, Context7, Feature Dev, Superpowers, Plugin Developer Toolkit, Playground, Code review, code simplifier, github, skill creator, claude.md management, claude code setup, pr review toolkit, .
+
+Vejo muitos plugins... já os tenho instalados? Se não, liste todos e instale-os.
+```
+
+#### Pré-prompt 2 — Skills locais do projeto
+
+```text
+/superpowers:using-superpowers a partir do conhecimento adquirido nos plugins, como frontend, canva e suporpoweres, crie skills locais no projeto atual para desenvolvimento de games html, css, javascript  e matter.js que rodem em browsers com física, jogabilidade e dinamica perfeita.
+```
 
 ## Prompt de comparação (igual ao Lab 002 - Prompt Médio)
 
