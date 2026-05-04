@@ -1,4 +1,4 @@
-# Lab 001 - Terraform AWS com LocalStack
+# Lab 002 - Terraform AWS com LocalStack
 
 ## Objetivo
 
