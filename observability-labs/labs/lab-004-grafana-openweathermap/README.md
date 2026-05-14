@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Instalar o Grafana localmente, importar um dashboard de clima pré-construído com dados
+Subir o Grafana via Docker, importar um dashboard de clima pré-construído com dados
 de OpenWeatherMap e explorar os conceitos de painéis, variáveis e data sources no Grafana.
 
 ## Duração e dificuldade
@@ -12,45 +12,22 @@ de OpenWeatherMap e explorar os conceitos de painéis, variáveis e data sources
 
 ## Pré-requisitos
 
-- Acesso de administrador no seu computador
-- Sistema operacional Linux, macOS ou Windows
+- Docker instalado
 - Porta 3000 livre no computador
 
 ## Fluxo recomendado do aluno
 
-### 1. Instalar o Grafana
+### 1. Subir o Grafana
 
-**macOS (Homebrew):**
 ```bash
-brew install grafana
-brew services start grafana
+docker run -d -p 3000:3000 --name=grafana grafana/grafana
 ```
 
-**Linux (Debian/Ubuntu):**
+Verifique que o container está rodando:
+
 ```bash
-sudo apt-get install -y adduser libfontconfig1 musl
-wget https://dl.grafana.com/oss/release/grafana_11.1.0_amd64.deb
-sudo dpkg -i grafana_11.1.0_amd64.deb
-sudo systemctl enable grafana-server
-sudo systemctl start grafana-server
+docker ps
 ```
-
-**Linux (RHEL/CentOS/Fedora):**
-```bash
-sudo yum install -y https://dl.grafana.com/oss/release/grafana-11.1.0-1.x86_64.rpm
-sudo systemctl enable grafana-server
-sudo systemctl start grafana-server
-```
-
-**Windows:** Baixe o instalador em [grafana.com/grafana/download](https://grafana.com/grafana/download?platform=windows) e execute o `.msi`.
-
-Verifique que o serviço está rodando:
-```bash
-# Linux/macOS
-curl -s http://localhost:3000/api/health
-```
-
-Resposta esperada: `{"commit":"...","database":"ok","version":"..."}`
 
 ### 2. Acessar o Grafana
 
@@ -79,24 +56,19 @@ Quer ver o clima da sua cidade em tempo real? Aqui estão as dicas para ir além
 2. **Subir o openweather-exporter** para converter a API OpenWeatherMap em métricas Prometheus:
    - Repositório: [billykwooten/openweather-exporter](https://github.com/billykwooten/openweather-exporter)
    - Configure `OW_CITY` (ex: `"Sao Paulo,BR"`) e `OW_APIKEY` via variáveis de ambiente.
-3. **Instalar o Prometheus** localmente e configurar para raspar as métricas do exporter.
+3. **Instalar o Prometheus** e configurar para raspar as métricas do exporter.
 4. **Adicionar o data source Prometheus** no Grafana e adaptar o dashboard para usar dados reais.
 5. Referência completa: [How to monitor your local weather with Grafana](https://grafana.com/blog/how-to-monitor-your-local-weather-with-grafana/)
 
 ## Limpeza
 
 ```bash
-# macOS
-brew services stop grafana
-
-# Linux (systemd)
-sudo systemctl stop grafana-server
-sudo systemctl disable grafana-server
+docker stop grafana && docker rm grafana
 ```
 
 ## Referências
 
-- [Instalar Grafana - Docs oficiais](https://grafana.com/docs/grafana/latest/setup-grafana/installation/)
+- [grafana/grafana - Docker Hub](https://hub.docker.com/r/grafana/grafana)
 - [How to monitor your local weather with Grafana - Grafana Blog](https://grafana.com/blog/how-to-monitor-your-local-weather-with-grafana/)
 - [Open Weather Map Dashboard (ID 9710) - Grafana Labs](https://grafana.com/grafana/dashboards/9710-open-weather-map/)
 - [openweather-exporter - GitHub](https://github.com/billykwooten/openweather-exporter)
