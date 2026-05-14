@@ -1,0 +1,21 @@
+receivers:
+  hostmetrics:
+    collection_interval: 10s
+    scrapers:
+      cpu: {}
+      memory: {}
+      disk: {}
+      network: {}
+      load: {}
+
+exporters:
+  otlp:
+    endpoint: grafana-otel-lgtm:4317
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    metrics:
+      receivers: [hostmetrics]
+      exporters: [otlp]
