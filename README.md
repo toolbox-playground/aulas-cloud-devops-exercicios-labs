@@ -10,6 +10,7 @@ Lista curada e organizada, por tecnologia, de labs e exercícios práticos criad
 - [Docker Labs](docker-labs/README.md)
 - [Kubernetes Labs](kubernetes-labs/README.md)
 - [DevSecOps Labs](devsecops-labs/README.md)
+- [Observability Labs](observability-labs/README.md)
 
 ## Objetivo
 
