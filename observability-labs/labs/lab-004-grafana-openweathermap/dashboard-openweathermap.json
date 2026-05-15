@@ -11,24 +11,12 @@
   ],
   "__elements": {},
   "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "yesoreyeram-infinity-datasource",
-      "name": "Infinity",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    }
+    { "type": "grafana", "id": "grafana", "name": "Grafana", "version": "10.0.0" },
+    { "type": "datasource", "id": "yesoreyeram-infinity-datasource", "name": "Infinity", "version": "1.0.0" },
+    { "type": "panel", "id": "stat", "name": "Stat", "version": "" },
+    { "type": "panel", "id": "bargauge", "name": "Bar gauge", "version": "" },
+    { "type": "panel", "id": "timeseries", "name": "Time series", "version": "" },
+    { "type": "panel", "id": "geomap", "name": "Geomap", "version": "" }
   ],
   "annotations": { "list": [] },
   "editable": true,
@@ -37,6 +25,15 @@
   "id": null,
   "links": [],
   "panels": [
+
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 20,
+      "title": "Condicoes Atuais",
+      "type": "row"
+    },
+
     {
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
@@ -47,7 +44,7 @@
             "steps": [
               { "color": "blue", "value": null },
               { "color": "green", "value": 15 },
-              { "color": "yellow", "value": 25 },
+              { "color": "yellow", "value": 28 },
               { "color": "red", "value": 35 }
             ]
           },
@@ -56,7 +53,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "gridPos": { "h": 6, "w": 5, "x": 0, "y": 1 },
       "id": 1,
       "options": {
         "colorMode": "background",
@@ -64,7 +61,8 @@
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
+        "textMode": "auto",
+        "text": { "titleSize": 14, "valueSize": 40 }
       },
       "title": "Temperatura",
       "type": "stat",
@@ -85,6 +83,7 @@
         }
       ]
     },
+
     {
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
@@ -95,7 +94,7 @@
             "steps": [
               { "color": "blue", "value": null },
               { "color": "green", "value": 15 },
-              { "color": "yellow", "value": 25 },
+              { "color": "yellow", "value": 28 },
               { "color": "red", "value": 35 }
             ]
           },
@@ -104,7 +103,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+      "gridPos": { "h": 6, "w": 5, "x": 5, "y": 1 },
       "id": 2,
       "options": {
         "colorMode": "background",
@@ -112,7 +111,8 @@
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
+        "textMode": "auto",
+        "text": { "titleSize": 14, "valueSize": 40 }
       },
       "title": "Sensacao Termica",
       "type": "stat",
@@ -133,6 +133,7 @@
         }
       ]
     },
+
     {
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
@@ -143,7 +144,7 @@
             "steps": [
               { "color": "green", "value": null },
               { "color": "yellow", "value": 60 },
-              { "color": "red", "value": 80 }
+              { "color": "red", "value": 85 }
             ]
           },
           "unit": "percent",
@@ -153,7 +154,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 0 },
+      "gridPos": { "h": 6, "w": 4, "x": 10, "y": 1 },
       "id": 3,
       "options": {
         "colorMode": "background",
@@ -161,7 +162,8 @@
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
+        "textMode": "auto",
+        "text": { "titleSize": 14, "valueSize": 40 }
       },
       "title": "Umidade",
       "type": "stat",
@@ -182,6 +184,7 @@
         }
       ]
     },
+
     {
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
@@ -200,7 +203,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 0 },
+      "gridPos": { "h": 3, "w": 5, "x": 14, "y": 1 },
       "id": 4,
       "options": {
         "colorMode": "background",
@@ -210,7 +213,7 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "title": "Velocidade do Vento",
+      "title": "Vento",
       "type": "stat",
       "targets": [
         {
@@ -229,25 +232,74 @@
         }
       ]
     },
+
     {
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "blue", "value": null }]
+          },
+          "unit": "short",
           "mappings": []
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 12, "x": 0, "y": 6 },
-      "id": 5,
+      "gridPos": { "h": 3, "w": 5, "x": 14, "y": 4 },
+      "id": 11,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
+      },
+      "title": "Pressao (hPa)",
+      "type": "stat",
+      "targets": [
+        {
+          "columns": [{ "selector": "main.pressure", "text": "Pressao", "type": "number" }],
+          "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "method": "GET",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric",
+          "url_options": { "data": "", "method": "GET" }
+        }
+      ]
+    },
+
+    {
+      "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "text", "value": null }]
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 5, "x": 19, "y": 1 },
+      "id": 5,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "text": { "titleSize": 14, "valueSize": 20 }
       },
       "title": "Condicao do Tempo",
       "type": "stat",
@@ -268,32 +320,57 @@
         }
       ]
     },
+
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 },
+      "id": 21,
+      "title": "Localizacao",
+      "type": "row"
+    },
+
     {
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "purple", "value": null }] },
-          "unit": "short",
-          "mappings": []
-        },
+        "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }] } },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 12, "x": 12, "y": 6 },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 8 },
       "id": 6,
       "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
+        "basemap": { "config": {}, "name": "Layer 0", "type": "default" },
+        "controls": { "mouseWheelZoom": true, "showAttribution": true, "showZoom": true },
+        "layers": [
+          {
+            "config": {
+              "showLegend": true,
+              "style": {
+                "color": { "fixed": "red" },
+                "opacity": 1,
+                "rotation": { "fixed": 0, "max": 360, "min": -360, "mode": "fixed" },
+                "size": { "fixed": 12, "max": 15, "min": 2, "mode": "fixed" },
+                "symbol": { "fixed": "img/icons/marker/circle.svg", "mode": "fixed" },
+                "textConfig": { "fontSize": 12, "offsetX": 0, "offsetY": 0, "textAlign": "center", "textBaseline": "middle" }
+              }
+            },
+            "location": { "mode": "auto" },
+            "name": "Cidade",
+            "tooltip": true,
+            "type": "markers"
+          }
+        ],
+        "tooltip": { "mode": "details" },
+        "view": { "allLayers": true, "id": "coords", "lat": 0, "lon": 0, "zoom": 4 }
       },
-      "title": "Pressao Atmosferica (hPa)",
-      "type": "stat",
+      "title": "Localizacao da Cidade",
+      "type": "geomap",
       "targets": [
         {
-          "columns": [{ "selector": "main.pressure", "text": "Pressao", "type": "number" }],
+          "columns": [
+            { "selector": "coord.lat", "text": "latitude", "type": "number" },
+            { "selector": "coord.lon", "text": "longitude", "type": "number" },
+            { "selector": "name", "text": "name", "type": "string" }
+          ],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
           "format": "table",
@@ -307,7 +384,235 @@
           "url_options": { "data": "", "method": "GET" }
         }
       ]
+    },
+
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 18 },
+      "id": 22,
+      "title": "Previsao para os Proximos 5 Dias",
+      "type": "row"
+    },
+
+    {
+      "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "scheme",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 4,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "unit": "celsius",
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 19 },
+      "id": 7,
+      "options": {
+        "legend": { "calcs": ["min", "max", "mean"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "none" }
+      },
+      "title": "Temperatura Prevista (proximos 5 dias / intervalos de 3h)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "columns": [
+            { "selector": "dt", "text": "Time", "type": "timestamp_s" },
+            { "selector": "main.temp", "text": "Temperatura (C)", "type": "number" },
+            { "selector": "main.feels_like", "text": "Sensacao Termica (C)", "type": "number" }
+          ],
+          "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+          "filters": [],
+          "format": "timeseries",
+          "global_query_id": "",
+          "method": "GET",
+          "refId": "A",
+          "root_selector": "list",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric",
+          "url_options": { "data": "", "method": "GET" }
+        }
+      ]
+    },
+
+    {
+      "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 60,
+            "gradientMode": "none",
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "unit": "percent",
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 28 },
+      "id": 8,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "title": "Umidade Prevista (%)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "columns": [
+            { "selector": "dt", "text": "Time", "type": "timestamp_s" },
+            { "selector": "main.humidity", "text": "Umidade (%)", "type": "number" }
+          ],
+          "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+          "filters": [],
+          "format": "timeseries",
+          "global_query_id": "",
+          "method": "GET",
+          "refId": "A",
+          "root_selector": "list",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric",
+          "url_options": { "data": "", "method": "GET" }
+        }
+      ]
+    },
+
+    {
+      "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "green" },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 4,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "unit": "velocityms",
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 },
+      "id": 9,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "title": "Velocidade do Vento Prevista (m/s)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "columns": [
+            { "selector": "dt", "text": "Time", "type": "timestamp_s" },
+            { "selector": "wind.speed", "text": "Vento (m/s)", "type": "number" }
+          ],
+          "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+          "filters": [],
+          "format": "timeseries",
+          "global_query_id": "",
+          "method": "GET",
+          "refId": "A",
+          "root_selector": "list",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric",
+          "url_options": { "data": "", "method": "GET" }
+        }
+      ]
+    },
+
+    {
+      "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "gradientMode": "none",
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "unit": "short",
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 36 },
+      "id": 10,
+      "options": {
+        "legend": { "calcs": ["min", "max", "mean"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "title": "Probabilidade de Chuva (% cobertura de nuvens)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "columns": [
+            { "selector": "dt", "text": "Time", "type": "timestamp_s" },
+            { "selector": "clouds.all", "text": "Nuvens (%)", "type": "number" }
+          ],
+          "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
+          "filters": [],
+          "format": "timeseries",
+          "global_query_id": "",
+          "method": "GET",
+          "refId": "A",
+          "root_selector": "list",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric",
+          "url_options": { "data": "", "method": "GET" }
+        }
+      ]
     }
+
   ],
   "refresh": "5m",
   "schemaVersion": 38,
@@ -338,11 +643,11 @@
       }
     ]
   },
-  "time": { "from": "now-1h", "to": "now" },
+  "time": { "from": "now", "to": "now+5d" },
   "timepicker": {},
   "timezone": "browser",
   "title": "OpenWeatherMap - Clima em Tempo Real",
   "uid": "openweathermap-infinity",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
