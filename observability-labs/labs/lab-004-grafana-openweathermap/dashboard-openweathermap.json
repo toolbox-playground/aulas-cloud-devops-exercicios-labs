@@ -290,9 +290,9 @@
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto",
-        "text": { "titleSize": 14, "valueSize": 18 }
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/.*/", "values": false },
+        "textMode": "value",
+        "text": { "titleSize": 14, "valueSize": 24 }
       },
       "title": "Condicao do Tempo",
       "type": "stat",
@@ -388,7 +388,7 @@
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 18 },
       "id": 22,
-      "title": "Previsao para os Proximos 5 Dias",
+      "title": "Detalhes Adicionais",
       "type": "row"
     },
 
@@ -396,49 +396,43 @@
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 15,
-            "gradientMode": "scheme",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 4,
-            "showPoints": "auto",
-            "spanNulls": false
-          },
-          "unit": "celsius",
+          "color": { "mode": "thresholds" },
           "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "blue", "value": null },
+            { "color": "green", "value": 10 },
+            { "color": "red", "value": 35 }
+          ] },
+          "unit": "celsius"
         },
         "overrides": []
       },
-      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 19 },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 19 },
       "id": 7,
       "options": {
-        "legend": { "calcs": ["min", "max", "mean"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "none" }
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "text": { "titleSize": 14, "valueSize": 24 }
       },
-      "title": "Temperatura Prevista — proximos 5 dias (intervalos de 3h)",
-      "type": "timeseries",
+      "title": "Temperatura Minima",
+      "type": "stat",
       "targets": [
         {
-          "columns": [
-            { "selector": "dt", "text": "Time", "type": "timestamp_s" },
-            { "selector": "main.temp", "text": "Temperatura (C)", "type": "number" },
-            { "selector": "main.feels_like", "text": "Sensacao Termica (C)", "type": "number" }
-          ],
+          "columns": [{ "selector": "temp_min", "text": "Temp Min", "type": "number" }],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
           "format": "table",
           "global_query_id": "",
           "method": "GET",
-          "parser": "backend",
           "refId": "A",
-          "root_selector": "list",
+          "root_selector": "main",
           "source": "url",
           "type": "json",
-          "url": "https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric",
+          "url": "https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric",
           "url_options": { "data": "", "method": "GET" }
         }
       ]
@@ -448,47 +442,43 @@
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "fixed", "fixedColor": "blue" },
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 60,
-            "lineWidth": 1,
-            "showPoints": "never",
-            "spanNulls": false
-          },
-          "unit": "percent",
+          "color": { "mode": "thresholds" },
           "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] }
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "blue", "value": null },
+            { "color": "green", "value": 10 },
+            { "color": "red", "value": 35 }
+          ] },
+          "unit": "celsius"
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 28 },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 19 },
       "id": 8,
       "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "single", "sort": "none" }
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "text": { "titleSize": 14, "valueSize": 24 }
       },
-      "title": "Umidade Prevista (%)",
-      "type": "timeseries",
+      "title": "Temperatura Maxima",
+      "type": "stat",
       "targets": [
         {
-          "columns": [
-            { "selector": "dt", "text": "Time", "type": "timestamp_s" },
-            { "selector": "main.humidity", "text": "Umidade (%)", "type": "number" }
-          ],
+          "columns": [{ "selector": "temp_max", "text": "Temp Max", "type": "number" }],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
           "format": "table",
           "global_query_id": "",
           "method": "GET",
-          "parser": "backend",
           "refId": "A",
-          "root_selector": "list",
+          "root_selector": "main",
           "source": "url",
           "type": "json",
-          "url": "https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric",
+          "url": "https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric",
           "url_options": { "data": "", "method": "GET" }
         }
       ]
@@ -498,48 +488,45 @@
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "fixed", "fixedColor": "green" },
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "opacity",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 4,
-            "showPoints": "auto",
-            "spanNulls": false
-          },
-          "unit": "velocityms",
+          "color": { "mode": "thresholds" },
           "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "green", "value": null },
+            { "color": "yellow", "value": 50 },
+            { "color": "blue", "value": 80 }
+          ] },
+          "unit": "percent",
+          "max": 100,
+          "min": 0
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 },
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 19 },
       "id": 9,
       "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "single", "sort": "none" }
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "text": { "titleSize": 14, "valueSize": 24 }
       },
-      "title": "Velocidade do Vento Prevista (m/s)",
-      "type": "timeseries",
+      "title": "Cobertura de Nuvens",
+      "type": "stat",
       "targets": [
         {
-          "columns": [
-            { "selector": "dt", "text": "Time", "type": "timestamp_s" },
-            { "selector": "wind.speed", "text": "Vento (m/s)", "type": "number" }
-          ],
+          "columns": [{ "selector": "all", "text": "Nuvens", "type": "number" }],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
           "format": "table",
           "global_query_id": "",
           "method": "GET",
-          "parser": "backend",
           "refId": "A",
-          "root_selector": "list",
+          "root_selector": "clouds",
           "source": "url",
           "type": "json",
-          "url": "https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric",
+          "url": "https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric",
           "url_options": { "data": "", "method": "GET" }
         }
       ]
@@ -549,47 +536,39 @@
       "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "fixed", "fixedColor": "light-blue" },
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70,
-            "lineWidth": 1,
-            "showPoints": "never",
-            "spanNulls": false
-          },
-          "unit": "short",
+          "color": { "mode": "thresholds" },
           "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] }
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
+          "unit": "degree"
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 36 },
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 19 },
       "id": 10,
       "options": {
-        "legend": { "calcs": ["min", "max", "mean"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "single", "sort": "none" }
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "text": { "titleSize": 14, "valueSize": 24 }
       },
-      "title": "Cobertura de Nuvens (%) — proxy para probabilidade de chuva",
-      "type": "timeseries",
+      "title": "Direcao do Vento",
+      "type": "stat",
       "targets": [
         {
-          "columns": [
-            { "selector": "dt", "text": "Time", "type": "timestamp_s" },
-            { "selector": "clouds.all", "text": "Nuvens (%)", "type": "number" }
-          ],
+          "columns": [{ "selector": "deg", "text": "Direcao", "type": "number" }],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
           "format": "table",
           "global_query_id": "",
           "method": "GET",
-          "parser": "backend",
           "refId": "A",
-          "root_selector": "list",
+          "root_selector": "wind",
           "source": "url",
           "type": "json",
-          "url": "https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric",
+          "url": "https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric",
           "url_options": { "data": "", "method": "GET" }
         }
       ]

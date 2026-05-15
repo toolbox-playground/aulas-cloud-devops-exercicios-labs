@@ -68,8 +68,9 @@ Login padrão: usuário **`admin`**, senha **`admin`**. Pode clicar em **Skip** 
 ### 5. Importar o dashboard de clima
 
 O arquivo `dashboard-openweathermap.json` neste diretório já contém um dashboard pronto
-com 6 painéis: Temperatura, Sensação Térmica, Umidade, Velocidade do Vento, Condição do
-Tempo e Pressão Atmosférica.
+com 10 painéis: Temperatura, Sensação Térmica, Umidade, Velocidade do Vento, Condição do
+Tempo, Pressão Atmosférica, Localização no Mapa, Temperatura Mínima, Temperatura Máxima,
+Cobertura de Nuvens e Direção do Vento.
 
 1. No menu lateral, clique em **Dashboards > Import**.
 2. Clique em **Upload dashboard JSON file** e selecione o arquivo `dashboard-openweathermap.json`.
