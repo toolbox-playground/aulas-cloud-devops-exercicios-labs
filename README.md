@@ -11,6 +11,7 @@ Lista curada e organizada, por tecnologia, de labs e exercícios práticos criad
 - [Kubernetes Labs](kubernetes-labs/README.md)
 - [DevSecOps Labs](devsecops-labs/README.md)
 - [Observability Labs](observability-labs/README.md)
+- [CI/CD Pipelines Labs](cicd-pipelines-labs/README.md)
 
 ## Objetivo
 
