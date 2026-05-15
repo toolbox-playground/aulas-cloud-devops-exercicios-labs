@@ -292,7 +292,7 @@
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto",
-        "text": { "titleSize": 14, "valueSize": 20 }
+        "text": { "titleSize": 14, "valueSize": 18 }
       },
       "title": "Condicao do Tempo",
       "type": "stat",
@@ -305,7 +305,7 @@
           "global_query_id": "",
           "method": "GET",
           "refId": "A",
-          "root_selector": "weather",
+          "root_selector": "weather[0]",
           "source": "url",
           "type": "json",
           "url": "https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric",
@@ -347,14 +347,18 @@
                 "symbol": { "fixed": "img/icons/marker/circle.svg", "mode": "fixed" }
               }
             },
-            "location": { "mode": "auto" },
+            "location": {
+              "mode": "coords",
+              "latitude": "latitude",
+              "longitude": "longitude"
+            },
             "name": "Cidade",
             "tooltip": true,
             "type": "markers"
           }
         ],
         "tooltip": { "mode": "details" },
-        "view": { "allLayers": true, "id": "coords", "lat": 0, "lon": 0, "zoom": 4 }
+        "view": { "allLayers": true, "id": "coords", "lat": -15, "lon": -50, "zoom": 3 }
       },
       "title": "Localizacao da Cidade",
       "type": "geomap",
@@ -425,7 +429,7 @@
           ],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
-          "format": "timeseries",
+          "format": "table",
           "global_query_id": "",
           "method": "GET",
           "refId": "A",
@@ -474,7 +478,7 @@
           ],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
-          "format": "timeseries",
+          "format": "table",
           "global_query_id": "",
           "method": "GET",
           "refId": "A",
@@ -524,7 +528,7 @@
           ],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
-          "format": "timeseries",
+          "format": "table",
           "global_query_id": "",
           "method": "GET",
           "refId": "A",
@@ -573,7 +577,7 @@
           ],
           "datasource": { "type": "yesoreyeram-infinity-datasource", "uid": "${DS_INFINITY}" },
           "filters": [],
-          "format": "timeseries",
+          "format": "table",
           "global_query_id": "",
           "method": "GET",
           "refId": "A",
@@ -621,6 +625,6 @@
   "timezone": "browser",
   "title": "OpenWeatherMap - Clima em Tempo Real",
   "uid": "openweathermap-infinity",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }
