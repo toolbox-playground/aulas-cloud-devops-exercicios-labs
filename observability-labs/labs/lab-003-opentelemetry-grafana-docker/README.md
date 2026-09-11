@@ -58,6 +58,30 @@ docker compose ps
    > Prometheus.
 4. Clique em **Run query** e veja os dados em tempo real.
 
+### 3.1 Mais exemplos de métricas (gauges vs. counters)
+
+Nem toda métrica se comporta igual no Explore. Repare na diferença:
+
+**Gauges** (valor atual, plotam direto sem transformação):
+
+- `system_cpu_load_average_1m` — carga média de CPU no último minuto
+- `system_cpu_logical_count` — número de CPUs lógicas
+- `system_memory_usage_bytes{state="used"}` — memória em uso
+- `system_network_connections{protocol="tcp"}` — conexões TCP por estado
+- `system_disk_pending_operations` — operações de disco pendentes
+
+**Counters** (`_total`, sempre crescentes — se plotar o nome puro o gráfico fica uma linha
+subindo sem parar; use `rate(...[5m])` para ver a *taxa* de variação, que é o que
+normalmente importa):
+
+- `rate(system_cpu_time_seconds_total[5m])` — % de tempo de CPU usado por estado (user/system/idle)
+- `rate(system_disk_io_bytes_total[5m])` — taxa de I/O de disco (bytes/s), filtre por `direction="read"` ou `"write"`
+- `rate(system_network_io_bytes_total[5m])` — taxa de tráfego de rede (bytes/s)
+- `rate(system_disk_operations_total[5m])` — operações de disco por segundo
+
+> **Dica:** se uma query com `_total` aparecer "achatada" ou vazia mesmo com dados no
+> Prometheus, o problema costuma ser justamente esse — falta o `rate()`.
+
 ### 4. Importar dashboard de Host Metrics
 
 1. No menu lateral, clique em **Dashboards > Import**.
