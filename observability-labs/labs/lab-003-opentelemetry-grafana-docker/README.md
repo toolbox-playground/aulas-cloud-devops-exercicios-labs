@@ -45,19 +45,30 @@ docker compose ps
 ### 3. Visualizar métricas de host
 
 1. No menu lateral, clique em **Explore**.
-2. Selecione o data source **Mimir** (ou **Prometheus**).
+2. Selecione o data source **Prometheus** (é o único data source de métricas disponível nesta
+   stack — a imagem `grafana/otel-lgtm` não inclui Mimir).
 3. No campo de query, experimente:
-   - `system_cpu_time_total` — tempo total de CPU
-   - `system_memory_usage` — uso de memória
-   - `system_disk_io` — I/O de disco
+   - `system_cpu_time_seconds_total` — tempo total de CPU
+   - `system_memory_usage_bytes` — uso de memória
+   - `system_disk_io_bytes_total` — I/O de disco
+
+   > Os nomes de métrica seguem a convenção de unidades do OpenTelemetry (sufixo `_seconds_total`,
+   > `_bytes`, etc.). Se não aparecer nada, confira os nomes disponíveis em
+   > **Explore > Metric** (autocomplete) ou consultando `/api/v1/label/__name__/values` no
+   > Prometheus.
 4. Clique em **Run query** e veja os dados em tempo real.
 
 ### 4. Importar dashboard de Host Metrics
 
 1. No menu lateral, clique em **Dashboards > Import**.
 2. Digite o ID `24638` e clique em **Load**.
-3. Selecione o data source **Mimir** e clique em **Import**.
+3. Selecione o data source **Prometheus** e clique em **Import**.
 4. Explore o dashboard com painéis de CPU, memória, disco e rede.
+
+> **Nota:** os dashboards "JVM Overview (OpenTelemetry)" e "RED Metrics" que já vêm criados
+> por padrão na stack são exemplos para métricas de aplicação (JVM, HTTP) — não têm relação
+> com este lab, que coleta apenas métricas de host. É esperado que fiquem sem dados, já que
+> nenhuma aplicação instrumentada está rodando.
 
 ## Como demonstrar em aula (roteiro curto)
 
