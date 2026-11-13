@@ -1,0 +1,26 @@
+# Lab 006 · proxy Nginx na frente de um backend Python.
+# Projeto Compose exclusivo do lab: tbx-aiops-linux. Só a porta 18080 do proxy é publicada, e só em 127.0.0.1.
+name: tbx-aiops-linux
+
+services:
+  backend:
+    image: python:3.12-alpine
+    init: true            # repassa o SIGTERM ao Python: o container para na hora
+    command: ["python3", "-u", "/app/app.py"]
+    volumes:
+      - ./backend:/app:ro
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+  proxy:
+    image: nginx:1.27-alpine
+    ports:
+      - "127.0.0.1:18080:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:ro
+    depends_on:
+      backend:
+        condition: service_healthy

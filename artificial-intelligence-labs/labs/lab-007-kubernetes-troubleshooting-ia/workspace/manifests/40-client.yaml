@@ -1,0 +1,11 @@
+# Cliente HTTP de diagnóstico: faz requisições novas para http://web/ de dentro do cluster.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client
+  namespace: tbx-ai-lab
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:8.11.1
+      command: ["sleep", "infinity"]

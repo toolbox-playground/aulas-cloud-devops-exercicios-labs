@@ -22,7 +22,7 @@ Demonstrar que, com boas práticas (context engineering e especificação), os r
 
 ## Passo a passo
 
-1. Crie um projeto novo:
+1. No terminal, escolha a pasta onde deseja guardar seu projeto (por exemplo, `~/projetos`). O comando abaixo cria `my-new-claude-angrybirds-project/` dentro da pasta atual e entra nela:
 
 ```bash
 mkdir my-new-claude-angrybirds-project && cd my-new-claude-angrybirds-project

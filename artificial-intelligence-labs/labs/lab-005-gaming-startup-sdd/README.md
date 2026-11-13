@@ -22,7 +22,7 @@ Mostrar como SDD reduz caos de vibe coding e aumenta previsibilidade, qualidade 
 ## Passo a passo
 
 1. Estude rapidamente o framework SDD (Spec Kit).
-2. Inicialize projeto:
+2. No terminal, escolha a pasta onde deseja guardar seu projeto (por exemplo, `~/projetos`). O comando cria `my-project-sdd/` dentro da pasta atual; depois, entre nela:
 
 ```bash
 specify init my-project-sdd --integration claude
