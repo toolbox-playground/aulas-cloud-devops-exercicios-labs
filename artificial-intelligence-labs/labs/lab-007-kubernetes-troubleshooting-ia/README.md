@@ -35,10 +35,26 @@ No Windows, use o WSL2 com o Docker Desktop integrado.
 
 ## Passo a passo
 
+### 0. Entrar na pasta do lab
+
+Todos os comandos deste README usam a variável `LAB`, com o caminho completo da pasta do lab. Assim, cada bloco funciona de onde você estiver no terminal.
+
+```bash
+# Se ainda não tem o repositório, clone e entre nele
+git clone https://github.com/toolbox-playground/aulas-cloud-devops-exercicios-labs.git
+cd aulas-cloud-devops-exercicios-labs
+
+# Na raiz do repositório (a pasta que contém artificial-intelligence-labs/)
+export LAB="$PWD/artificial-intelligence-labs/labs/lab-007-kubernetes-troubleshooting-ia"
+cd "$LAB"
+```
+
+Se já clonou antes, entre na pasta `aulas-cloud-devops-exercicios-labs` e rode só as duas últimas linhas. Se abrir outro terminal, defina o `LAB` de novo do mesmo jeito.
+
 ### 1. Criar o cluster e a aplicação saudável
 
 ```bash
-cd artificial-intelligence-labs/labs/lab-007-kubernetes-troubleshooting-ia
+cd "$LAB"
 bash scripts/setup.sh --state healthy
 ```
 
@@ -47,6 +63,7 @@ O script cria o cluster `tbx-aiops` (só se ainda não existir um criado por est
 ### 2. Provocar a falha
 
 ```bash
+cd "$LAB"
 bash scripts/inject-fault.sh service-selector
 kubectl --context kind-tbx-aiops -n tbx-ai-lab get deploy,pods
 kubectl --context kind-tbx-aiops -n tbx-ai-lab exec client -- curl -s -m 5 http://web/
@@ -56,8 +73,10 @@ O Deployment segue Ready, mas a requisição pelo Service falha.
 
 ### 3. Abrir o agente no workspace
 
+Abra o agente na pasta `workspace/` do lab, onde ficam os manifestos:
+
 ```bash
-cd workspace
+cd "$LAB/workspace"
 claude      # ou: codex
 ```
 
@@ -101,13 +120,14 @@ Não vale como prova um `port-forward`: ele conecta direto num Pod e não passa 
 Depois, confira (saia do agente antes: `/exit` no Claude Code, `Ctrl+C` no Codex):
 
 ```bash
-cd ..
+cd "$LAB"
 bash scripts/verify.sh --state healthy
 ```
 
 ### 6. Repetir ou limpar
 
 ```bash
+cd "$LAB"
 bash scripts/reset.sh --state broken   # volta ao defeito
 bash scripts/teardown.sh               # apaga o cluster tbx-aiops (só se foi criado por este lab)
 ```

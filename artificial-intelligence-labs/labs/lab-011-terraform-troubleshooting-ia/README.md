@@ -24,22 +24,40 @@ O provider é o `hashicorp/local`: o Terraform só gera arquivos em `workspace/s
 
 ## Passo a passo
 
+### 0. Entrar na pasta do lab
+
+Todos os comandos deste README usam a variável `LAB`, com o caminho completo da pasta do lab. Assim, cada bloco funciona de onde você estiver no terminal.
+
+```bash
+# Se ainda não tem o repositório, clone e entre nele
+git clone https://github.com/toolbox-playground/aulas-cloud-devops-exercicios-labs.git
+cd aulas-cloud-devops-exercicios-labs
+
+# Na raiz do repositório (a pasta que contém artificial-intelligence-labs/)
+export LAB="$PWD/artificial-intelligence-labs/labs/lab-011-terraform-troubleshooting-ia"
+cd "$LAB"
+```
+
+Se já clonou antes, entre na pasta `aulas-cloud-devops-exercicios-labs` e rode só as duas últimas linhas. Se abrir outro terminal, defina o `LAB` de novo do mesmo jeito.
+
 ### 1. Preparar o estado inicial e provocar a falha
 
 O script roda `terraform init`, aplica o estado inicial, confirma que o plan está limpo (`No changes`) e então injeta a falha.
 
 ```bash
-cd artificial-intelligence-labs/labs/lab-011-terraform-troubleshooting-ia
+cd "$LAB"
 bash scripts/setup.sh --state broken
-cd workspace && terraform plan; cd ..
+terraform -chdir="$LAB/workspace" plan
 ```
 
 O `plan` agora termina com erro.
 
 ### 2. Parte 1 · troubleshooting do plan
 
+Abra o agente na pasta `workspace/` do lab, onde ficam os arquivos Terraform:
+
 ```bash
-cd workspace
+cd "$LAB/workspace"
 claude      # ou: codex
 ```
 
@@ -63,12 +81,12 @@ Não vale: rodar `apply`, apagar o state ou trocar o template por conteúdo fixo
 Confira depois da correção (o plan deve dizer `No changes`) (saia do agente antes: `/exit` no Claude Code, `Ctrl+C` no Codex):
 
 ```bash
-cd .. && bash scripts/verify.sh --state healthy && cd workspace
+bash "$LAB/scripts/verify.sh" --state healthy
 ```
 
 ### 3. Parte 2 · mudança que destrói um recurso
 
-Na mesma sessão (ou numa nova), peça:
+Volte ao agente (`cd "$LAB/workspace"` e `claude` ou `codex`) e peça:
 
 ```text
 Renomeie o arquivo gerado pelo recurso app_env de app.env para pedidos-api.env.
@@ -81,7 +99,7 @@ Observe o loop: o agente edita, roda o plan, lê `Plan: 1 to add, 0 to change, 1
 ### 4. Repetir ou limpar
 
 ```bash
-cd ..
+cd "$LAB"
 bash scripts/reset.sh --state broken   # volta ao plan quebrado e desfaz edições nos .tf
 bash scripts/teardown.sh               # apaga saida/, state e .terraform deste lab
 ```

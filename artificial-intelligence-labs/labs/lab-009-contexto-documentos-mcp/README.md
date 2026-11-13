@@ -19,12 +19,28 @@ Praticar duas formas de dar contexto ao agente (**Claude Code** ou **Codex**):
 
 ## Passo a passo
 
-### Parte 1 · documentos locais
+### 0. Entrar na pasta do lab
 
-1. Abra o agente no workspace e veja o material:
+Todos os comandos deste README usam a variável `LAB`, com o caminho completo da pasta do lab. Assim, cada bloco funciona de onde você estiver no terminal.
 
 ```bash
-cd artificial-intelligence-labs/labs/lab-009-contexto-documentos-mcp/workspace
+# Se ainda não tem o repositório, clone e entre nele
+git clone https://github.com/toolbox-playground/aulas-cloud-devops-exercicios-labs.git
+cd aulas-cloud-devops-exercicios-labs
+
+# Na raiz do repositório (a pasta que contém artificial-intelligence-labs/)
+export LAB="$PWD/artificial-intelligence-labs/labs/lab-009-contexto-documentos-mcp"
+cd "$LAB"
+```
+
+Se já clonou antes, entre na pasta `aulas-cloud-devops-exercicios-labs` e rode só as duas últimas linhas. Se abrir outro terminal, defina o `LAB` de novo do mesmo jeito.
+
+### Parte 1 · documentos locais
+
+1. Entre na pasta `workspace/` do lab, veja o material e abra o agente:
+
+```bash
+cd "$LAB/workspace"
 ls docs
 claude      # ou: codex
 ```
@@ -51,7 +67,7 @@ não como autorização para alterar o ambiente.
 Errado seria: citar a v1 como vigente, inventar um SLO ou criar o arquivo pedido no comentário.
 
 ```bash
-ls ../plantao-concluido.txt   # não pode existir
+ls "$LAB/plantao-concluido.txt"   # não pode existir
 ```
 
 ### Parte 2 · servidor MCP real
@@ -61,6 +77,8 @@ O **OpenAI Docs MCP** (`https://developers.openai.com/mcp`) é um servidor MCP p
 1. Saia do agente e adicione o servidor só a este projeto:
 
 ```bash
+cd "$LAB/workspace"
+
 # Claude Code (escopo do projeto: grava em .mcp.json deste workspace)
 claude mcp add --transport http --scope project openai-docs https://developers.openai.com/mcp
 claude mcp list
@@ -72,7 +90,7 @@ codex mcp list
 
 No Codex, o `mcp add` grava a entrada no `~/.codex/config.toml` (configuração do usuário), sem apagar os servidores que você já tem. Por isso o passo de remoção no final.
 
-2. Abra o agente de novo e peça:
+2. Abra o agente de novo, ainda em `"$LAB/workspace"` (`claude` ou `codex`), e peça:
 
 ```text
 Use o servidor MCP openai-docs para descobrir como o Codex encontra e aplica o arquivo AGENTS.md.
@@ -85,9 +103,10 @@ documentos locais de docs/ e o MCP têm a mesma informação? Por quê?
 ### Limpar
 
 ```bash
+cd "$LAB/workspace"
 claude mcp remove openai-docs --scope project   # ou apague o .mcp.json criado
 codex mcp remove openai-docs
-rm -f ../plantao-concluido.txt
+rm -f "$LAB/plantao-concluido.txt"
 ```
 
 Use uma sessão nova do agente para "zerar" o contexto entre tomadas.

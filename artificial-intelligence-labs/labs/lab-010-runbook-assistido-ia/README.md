@@ -32,24 +32,40 @@ O runbook está em `workspace/docs/runbooks/pedidos-api.md` e a coleta em `works
 
 ## Passo a passo
 
-### 1. Preparar um caso
+### 0. Entrar na pasta do lab
 
-Rode a partir da pasta deste lab. Comece pelo saudável:
+Todos os comandos deste README usam a variável `LAB`, com o caminho completo da pasta do lab. Assim, cada bloco funciona de onde você estiver no terminal.
 
 ```bash
-cd artificial-intelligence-labs/labs/lab-010-runbook-assistido-ia
+# Se ainda não tem o repositório, clone e entre nele
+git clone https://github.com/toolbox-playground/aulas-cloud-devops-exercicios-labs.git
+cd aulas-cloud-devops-exercicios-labs
+
+# Na raiz do repositório (a pasta que contém artificial-intelligence-labs/)
+export LAB="$PWD/artificial-intelligence-labs/labs/lab-010-runbook-assistido-ia"
+cd "$LAB"
+```
+
+Se já clonou antes, entre na pasta `aulas-cloud-devops-exercicios-labs` e rode só as duas últimas linhas. Se abrir outro terminal, defina o `LAB` de novo do mesmo jeito.
+
+### 1. Preparar um caso
+
+Comece pelo caso saudável:
+
+```bash
+cd "$LAB"
 bash scripts/setup.sh --case healthy        # depois: --case broken e --case unavailable
 ```
 
 ### 2. Abrir o agente com acesso ao ambiente do lab 006
 
-O agente roda em `workspace/` deste lab e recebe acesso à pasta do lab 006, onde fica a configuração do proxy.
+Abra o agente na pasta `workspace/` do lab, dando acesso também ao workspace do lab 006, onde fica a configuração do proxy:
 
 ```bash
-cd workspace
-claude --add-dir ../../lab-006-linux-troubleshooting-ia/workspace     # Claude Code
+cd "$LAB/workspace"
+claude --add-dir "$LAB/../lab-006-linux-troubleshooting-ia/workspace"     # Claude Code
 # ou
-codex --add-dir ../../lab-006-linux-troubleshooting-ia/workspace      # Codex
+codex --add-dir "$LAB/../lab-006-linux-troubleshooting-ia/workspace"      # Codex
 ```
 
 Abra uma sessão **nova** para cada caso, para o histórico não entregar a resposta.
@@ -65,7 +81,11 @@ reais, o que mudou e o que não conseguiu verificar.
 
 ### 4. Comparar os três casos
 
-Repita os passos 1 a 3 com `--case broken` e `--case unavailable` (sessão nova do agente a cada caso).
+Para cada um dos outros casos, saia do agente, prepare o caso e repita os passos 2 e 3 numa sessão **nova** do agente:
+
+```bash
+bash "$LAB/scripts/setup.sh" --case broken        # ou: --case unavailable
+```
 
 - **Saudável:** a coleta mostra `HTTP 200` e `proxy_pass http://backend:8000;`. O agente deve encerrar sem editar nada.
 - **Quebrado:** a coleta mostra `HTTP 502`, o log `connect() failed (111: Connection refused)` e `proxy_pass http://backend:8001;`. O agente deve propor voltar para `backend:8000` e parar. Aprove:
@@ -79,13 +99,13 @@ Aprovado. Aplique só essa correção, recarregue o proxy, rode a coleta de novo
 Observe também se o Claude Code carregou a skill `runbook-pedidos-api` sozinho. No caso quebrado, confira depois da correção (saia do agente antes: `/exit` no Claude Code, `Ctrl+C` no Codex):
 
 ```bash
-bash ../../lab-006-linux-troubleshooting-ia/scripts/verify.sh --state healthy
+bash "$LAB/../lab-006-linux-troubleshooting-ia/scripts/verify.sh" --state healthy
 ```
 
 ### 5. Limpar
 
 ```bash
-cd ..
+cd "$LAB"
 bash scripts/teardown.sh
 ```
 

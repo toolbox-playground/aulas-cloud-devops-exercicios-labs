@@ -23,14 +23,30 @@ O ponto de partida é um painel de serviços com dados fictícios, sem filtro e 
 
 ## Passo a passo
 
+### 0. Entrar na pasta do lab
+
+Todos os comandos deste README usam a variável `LAB`, com o caminho completo da pasta do lab. Assim, cada bloco funciona de onde você estiver no terminal.
+
+```bash
+# Se ainda não tem o repositório, clone e entre nele
+git clone https://github.com/toolbox-playground/aulas-cloud-devops-exercicios-labs.git
+cd aulas-cloud-devops-exercicios-labs
+
+# Na raiz do repositório (a pasta que contém artificial-intelligence-labs/)
+export LAB="$PWD/artificial-intelligence-labs/labs/lab-008-desenvolvimento-validacao-ia"
+cd "$LAB"
+```
+
+Se já clonou antes, entre na pasta `aulas-cloud-devops-exercicios-labs` e rode só as duas últimas linhas. Se abrir outro terminal, defina o `LAB` de novo do mesmo jeito.
+
 ### 1. Criar a cópia de trabalho
 
 O script copia o `starter/` para `app/` e cria um commit de baseline (repositório git local, separado deste repositório).
 
 ```bash
-cd artificial-intelligence-labs/labs/lab-008-desenvolvimento-validacao-ia
+cd "$LAB"
 bash scripts/setup.sh
-cd app
+cd "$LAB/app"
 npm run dev        # http://127.0.0.1:5173 · Ctrl+C para parar
 ```
 
@@ -38,7 +54,10 @@ Abra o navegador e veja o estado inicial (repare no `undefined` do serviço `fre
 
 ### 2. Pedir uma proposta de layout
 
+Abra o agente na pasta `app/`, criada pelo setup:
+
 ```bash
+cd "$LAB/app"
 claude      # ou: codex
 ```
 
@@ -82,6 +101,7 @@ Escreva testes para a lógica do filtro (todos, cada status, desconhecido e vazi
 Não abra PR neste repositório de exercícios. Use um repositório ou fork seu, por exemplo:
 
 ```bash
+cd "$LAB/app"
 gh repo create meu-painel-lab-008 --private --source . --push
 ```
 
@@ -95,7 +115,7 @@ Sem repositório remoto, peça só o diff e a descrição do PR prontos, e regis
 ### 6. Recomeçar ou limpar
 
 ```bash
-cd ..
+cd "$LAB"
 bash scripts/reset.sh       # descarta app/ e cria de novo a partir do starter
 bash scripts/teardown.sh    # remove app/ (pare o npm run dev antes, com Ctrl+C)
 ```

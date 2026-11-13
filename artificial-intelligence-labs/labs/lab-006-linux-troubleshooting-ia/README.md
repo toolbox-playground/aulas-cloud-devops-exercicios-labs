@@ -41,12 +41,28 @@ docker pull python:3.12-alpine
 
 ## Passo a passo
 
-### 1. Subir o ambiente saudável
+### 0. Entrar na pasta do lab
 
-Entre na pasta do lab e suba o proxy e o backend. O script só termina com sucesso se o `/health` responder `200 ok` pelo proxy.
+Todos os comandos deste README usam a variável `LAB`, com o caminho completo da pasta do lab. Assim, cada bloco funciona de onde você estiver no terminal.
 
 ```bash
-cd artificial-intelligence-labs/labs/lab-006-linux-troubleshooting-ia
+# Se ainda não tem o repositório, clone e entre nele
+git clone https://github.com/toolbox-playground/aulas-cloud-devops-exercicios-labs.git
+cd aulas-cloud-devops-exercicios-labs
+
+# Na raiz do repositório (a pasta que contém artificial-intelligence-labs/)
+export LAB="$PWD/artificial-intelligence-labs/labs/lab-006-linux-troubleshooting-ia"
+cd "$LAB"
+```
+
+Se já clonou antes, entre na pasta `aulas-cloud-devops-exercicios-labs` e rode só as duas últimas linhas. Se abrir outro terminal, defina o `LAB` de novo do mesmo jeito.
+
+### 1. Subir o ambiente saudável
+
+Suba o proxy e o backend. O script só termina com sucesso se o `/health` responder `200 ok` pelo proxy.
+
+```bash
+cd "$LAB"
 bash scripts/setup.sh --state healthy
 curl -i http://127.0.0.1:18080/health
 ```
@@ -58,16 +74,17 @@ Resultado esperado: `HTTP/1.1 200 OK` e corpo `ok`.
 O script injeta **uma** falha no proxy e confirma o sintoma: o `curl` passa a devolver `502 Bad Gateway`, enquanto o backend continua saudável.
 
 ```bash
+cd "$LAB"
 bash scripts/inject-fault.sh upstream-port
 curl -i http://127.0.0.1:18080/health
 ```
 
 ### 3. Abrir o agente dentro do workspace
 
-Abra uma sessão **nova** do agente na pasta `workspace/` (é lá que ficam o Compose e a configuração).
+Abra uma sessão **nova** do agente na pasta `workspace/` do lab, onde ficam o Compose e a configuração:
 
 ```bash
-cd workspace
+cd "$LAB/workspace"
 claude        # Claude Code
 # ou
 codex         # Codex
@@ -114,13 +131,14 @@ encaminhe para o backend corretamente.
 Depois, confira pelo mesmo caminho que falhava (saia do agente antes: `/exit` no Claude Code, `Ctrl+C` no Codex):
 
 ```bash
-cd ..
+cd "$LAB"
 bash scripts/verify.sh --state healthy
 ```
 
 ### 6. Repetir ou limpar
 
 ```bash
+cd "$LAB"
 bash scripts/reset.sh --state broken   # volta ao defeito para gravar de novo
 bash scripts/teardown.sh               # remove só os containers deste lab
 ```
