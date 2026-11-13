@@ -65,7 +65,18 @@ reais, o que mudou e o que não conseguiu verificar.
 
 ### 4. Comparar os três casos
 
-Repita os passos 1 a 3 com `--case broken` e `--case unavailable`. No caso quebrado, aprove a correção e confira:
+Repita os passos 1 a 3 com `--case broken` e `--case unavailable` (sessão nova do agente a cada caso).
+
+- **Saudável:** a coleta mostra `HTTP 200` e `proxy_pass http://backend:8000;`. O agente deve encerrar sem editar nada.
+- **Quebrado:** a coleta mostra `HTTP 502`, o log `connect() failed (111: Connection refused)` e `proxy_pass http://backend:8001;`. O agente deve propor voltar para `backend:8000` e parar. Aprove:
+
+```text
+Aprovado. Aplique só essa correção, recarregue o proxy, rode a coleta de novo e registre.
+```
+
+- **Indisponível:** a coleta mostra os containers `exited` e `HTTP 000`. O agente deve relatar o bloqueio, sem inventar diagnóstico.
+
+Observe também se o Claude Code carregou a skill `runbook-pedidos-api` sozinho. No caso quebrado, confira depois da correção (saia do agente antes: `/exit` no Claude Code, `Ctrl+C` no Codex):
 
 ```bash
 bash ../../lab-006-linux-troubleshooting-ia/scripts/verify.sh --state healthy

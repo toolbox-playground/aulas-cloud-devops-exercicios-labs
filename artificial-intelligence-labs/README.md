@@ -18,4 +18,4 @@ Trilha de exercícios práticos para IA.
 
 ## Módulo 5 do curso "IA para Desenvolvimento e Operação de Software"
 
-Os labs 006 a 011 formam a parte prática do curso, gravada num vídeo único. Roteiro: [GRAVACAO-MODULO-5.md](GRAVACAO-MODULO-5.md).
+Os labs 006 a 011 são a parte prática do curso. Cada README tem o passo a passo completo: subir o ambiente, provocar a falha, abrir o Claude Code ou o Codex, o prompt a enviar e como conferir o resultado.

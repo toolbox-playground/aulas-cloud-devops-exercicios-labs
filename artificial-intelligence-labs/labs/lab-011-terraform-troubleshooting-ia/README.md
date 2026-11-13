@@ -52,7 +52,15 @@ a correção no código, confirme que o plan volta a não ter mudanças.
 
 O `AGENTS.md` e o `CLAUDE.md` do workspace dizem ao agente que ele pode rodar `validate`, `fmt` e `plan`, mas nunca `apply` nem `destroy`.
 
-Confira depois da correção:
+O que o agente deve encontrar: o `plan` falha em `templatefile` com `no file exists at "./templates/nginx.conf.tftpl"`, e o arquivo existe com outro nome (`templates/proxy.conf.tftpl`). Causa: o template foi renomeado e o `main.tf` não foi atualizado. As correções mínimas são atualizar o caminho no `main.tf` ou voltar o nome do arquivo. Quando ele propuser, aprove:
+
+```text
+Aprovado. Aplique essa correção no código e rode o terraform plan de novo, sem apply.
+```
+
+Não vale: rodar `apply`, apagar o state ou trocar o template por conteúdo fixo.
+
+Confira depois da correção (o plan deve dizer `No changes`) (saia do agente antes: `/exit` no Claude Code, `Ctrl+C` no Codex):
 
 ```bash
 cd .. && bash scripts/verify.sh --state healthy && cd workspace
@@ -68,7 +76,7 @@ Rode terraform plan. Se o plan destruir algum recurso, tente evitar a destruiç�
 plan de novo; se não for possível, me explique o impacto. Não rode apply.
 ```
 
-Observe o loop: o agente edita, roda o plan, lê `1 to destroy`, tenta uma alternativa (por exemplo `create_before_destroy`), roda o plan de novo e explica. Você decide se aplica.
+Observe o loop: o agente edita, roda o plan, lê `Plan: 1 to add, 0 to change, 1 to destroy`, tenta uma alternativa (por exemplo `create_before_destroy`), roda o plan de novo e explica. Mudar o `filename` de um `local_file` sempre força a recriação: `create_before_destroy` só muda a ordem, e um bloco `moved` não resolve. O esperado é ele explicar o impacto e deixar o `apply` com você.
 
 ### 4. Repetir ou limpar
 

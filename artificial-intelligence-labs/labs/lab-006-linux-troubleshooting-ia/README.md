@@ -32,6 +32,13 @@ você (curl) ──► 127.0.0.1:18080 ──► proxy (nginx:1.27-alpine) ─�
 
 No Windows, rode os comandos no WSL2 (Ubuntu) ou no Git Bash.
 
+**Antes de gravar** (para o download não aparecer no vídeo):
+
+```bash
+docker pull nginx:1.27-alpine
+docker pull python:3.12-alpine
+```
+
 ## Passo a passo
 
 ### 1. Subir o ambiente saudável
@@ -68,7 +75,7 @@ codex         # Codex
 
 ### 4. Pedir o troubleshooting
 
-Cole o pedido abaixo (ele também está em [prompts.md](prompts.md)):
+Cole o pedido abaixo:
 
 ```text
 Este ambiente de laboratório tem um proxy e um backend, rodando com Docker Compose neste diretório.
@@ -80,9 +87,31 @@ funcionamento pela mesma URL.
 
 Acompanhe o que o agente faz. Os comandos de leitura (`docker compose ps`, `docker compose logs`, ler a configuração, `curl`) são o loop de investigação dele. Antes de editar arquivo ou recarregar o Nginx, ele deve parar e pedir aprovação, conforme o modo de permissão.
 
+O que o agente deve encontrar no loop dele:
+
+- `curl` → `HTTP/1.1 502 Bad Gateway`
+- `docker compose logs proxy` → `connect() failed (111: Connection refused) while connecting to upstream ... upstream: "http://...:8001/health"`
+- `nginx/default.conf` → `proxy_pass http://backend:8001;`
+- `backend/app.py` → o backend escuta na porta **8000**; `docker compose ps` mostra o backend `healthy`
+
+Causa: o proxy encaminha para a porta 8001, mas o backend escuta na 8000.
+
 ### 5. Aprovar e conferir
 
-Aprove a correção proposta, se ela fizer sentido, e confira pelo mesmo caminho que falhava:
+Quando o agente parar e propor voltar o `proxy_pass` para `backend:8000`, aprove:
+
+```text
+Aprovado. Aplique só essa correção, recarregue o proxy e confirme pela mesma URL.
+```
+
+Se ele tentar contornar o problema (publicar a porta do backend, chamar o backend direto ou mudar a porta do backend), recuse:
+
+```text
+Não quero expor o backend nem pular o proxy. Corrija a configuração do proxy para que ele
+encaminhe para o backend corretamente.
+```
+
+Depois, confira pelo mesmo caminho que falhava (saia do agente antes: `/exit` no Claude Code, `Ctrl+C` no Codex):
 
 ```bash
 cd ..

@@ -54,7 +54,17 @@ Avalie a proposta e peça ajustes em linguagem natural. Só depois diga para imp
 
 ### 3. Testar de verdade e iterar
 
-Abra a URL que o agente informar. Teste: filtro "Todos", cada status, o serviço sem status ("desconhecido"), um filtro sem resultados e a tela estreita (DevTools → modo celular). Peça ajustes concretos:
+Abra a URL que o agente informar. Resultado esperado de cada filtro:
+
+| Filtro | Serviços |
+|---|---|
+| Todos | 7 |
+| online | pedidos-api, catalogo, estoque |
+| degraded | pagamentos, notificacoes |
+| offline | relatorios |
+| desconhecido | frete |
+
+Teste: filtro "Todos", cada status, o serviço sem status ("desconhecido"), um filtro sem resultados e a tela estreita (DevTools → modo celular). Peça ajustes concretos:
 
 ```text
 A aplicação abriu, mas [descreva o que viu]. Eu esperava [exemplo concreto].

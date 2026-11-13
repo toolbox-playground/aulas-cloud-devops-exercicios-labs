@@ -31,6 +31,8 @@ Todos os comandos usam o contexto `kind-tbx-aiops` de forma explícita: o lab n�
 
 No Windows, use o WSL2 com o Docker Desktop integrado.
 
+**Antes de gravar:** feche containers pesados que não fazem parte do lab (o control plane do kind precisa de CPU livre) e, se quiser, rode o passo 1 antes de apertar o REC: a criação do cluster leva de 1 a 3 minutos.
+
 ## Passo a passo
 
 ### 1. Criar o cluster e a aplicação saudável
@@ -70,7 +72,33 @@ depois de eu aprovar, corrija a fonte declarativa e valide uma nova requisição
 
 Acompanhe o loop: o agente roda `kubectl get`/`describe`, lê labels, selector e EndpointSlices e decide o próximo comando. Antes do `kubectl apply`, ele deve parar e pedir aprovação.
 
+O que o agente deve encontrar no loop dele:
+
+- `kubectl get pods --show-labels` → Pod `1/1 Running` com label `app=web`
+- `kubectl describe service web` → `Selector: app=web-v2` e `Endpoints:` vazio
+- `kubectl get endpointslices -l kubernetes.io/service-name=web` → `ENDPOINTS <unset>`
+- requisição do Pod `client` para `http://web/` → `Failed to connect to web port 80`
+
+Causa: o selector do Service (`app=web-v2`) não casa com o label dos Pods (`app=web`).
+
 ### 5. Aprovar e conferir
+
+Quando o agente propor trocar o selector para `app: web` no `manifests/30-service.yaml`, aprove:
+
+```text
+Aprovado. Corrija o manifesto, aplique com kubectl apply e valide com uma requisição nova
+pelo Service, de dentro do cluster.
+```
+
+Se ele corrigir só o objeto vivo (`kubectl edit` ou `patch`), peça:
+
+```text
+Corrija também o manifesto em workspace/manifests: senão o próximo apply traz o erro de volta.
+```
+
+Não vale como prova um `port-forward`: ele conecta direto num Pod e não passa pelo Service.
+
+Depois, confira (saia do agente antes: `/exit` no Claude Code, `Ctrl+C` no Codex):
 
 ```bash
 cd ..
