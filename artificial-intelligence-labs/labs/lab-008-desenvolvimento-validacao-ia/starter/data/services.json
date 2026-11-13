@@ -1,0 +1,9 @@
+[
+  {"id": "pedidos-api", "nome": "pedidos-api", "time": "Pedidos", "status": "online", "atualizado": "2026-11-13T10:00:00Z"},
+  {"id": "pagamentos", "nome": "pagamentos", "time": "Financeiro", "status": "degraded", "atualizado": "2026-11-13T09:55:00Z"},
+  {"id": "relatorios", "nome": "relatorios", "time": "Dados", "status": "offline", "atualizado": "2026-11-13T09:40:00Z"},
+  {"id": "catalogo", "nome": "catalogo", "time": "Produtos", "status": "online", "atualizado": "2026-11-13T10:02:00Z"},
+  {"id": "notificacoes", "nome": "notificacoes", "time": "Plataforma", "status": "degraded", "atualizado": "2026-11-13T09:58:00Z"},
+  {"id": "estoque", "nome": "estoque", "time": "Logística", "status": "online", "atualizado": "2026-11-13T10:01:00Z"},
+  {"id": "frete", "nome": "frete", "time": "Logística", "atualizado": "2026-11-13T08:30:00Z"}
+]
